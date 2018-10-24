@@ -1,10 +1,12 @@
 ﻿namespace IoT_Hub
 {
-    public class NetworkedSensorDataItem
+    public abstract class NetworkedSensorDataItem
     {
-		public string Key { get; private set; }
+        public string Key { get; private set; }
         public string Text { get; private set; }
-        public dynamic Value { get; private set; }
-
+    }
+    public class NetworkedSensorDataItem<T> : NetworkedSensorDataItem
+    {
+        public T Value { get; private set; }
 	}
 }

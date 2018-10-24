@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoT_Hub
+namespace IoT_Hub.Interfaces
 {
 	/// <summary>
     ///     Interface that represents a device that is capable of reading data about its environment and sending it to the IoT hub.
@@ -12,7 +12,7 @@ namespace IoT_Hub
         ///     Fetches data from the device the class implementing INetworkedSensor represents.
         /// </summary>
         /// <returns>
-        ///     Data from the device.
+        ///     Data from the device as a NetworkedSensorDataBundle.
         /// </returns>
 		NetworkedSensorDataBundle FetchData();
     }

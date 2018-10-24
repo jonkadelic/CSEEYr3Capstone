@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriverPluginSystem", "DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj", "{B60FD711-FAA6-4BCC-AA4E-19643182D077}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B60FD711-FAA6-4BCC-AA4E-19643182D077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B60FD711-FAA6-4BCC-AA4E-19643182D077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B60FD711-FAA6-4BCC-AA4E-19643182D077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B60FD711-FAA6-4BCC-AA4E-19643182D077}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4DA6A224-5DFF-49C5-9B7E-AF4056B1E63C}
+	EndGlobalSection
+EndGlobal

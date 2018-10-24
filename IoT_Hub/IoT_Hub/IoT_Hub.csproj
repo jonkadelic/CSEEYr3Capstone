@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DeviceDriverPluginSystem">
+      <HintPath>..\..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\bin\Debug\netstandard1.4\DeviceDriverPluginSystem.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\NetworkedSensorDataItem.cs" />
+    <Compile Include="Interfaces\IDeviceDriver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\INetworkedSensor.cs" />
