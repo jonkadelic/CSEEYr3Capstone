@@ -1,18 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace IoT_Hub
 {
-    public class NetworkedSensorDataBundle
+    public class NetworkedSensorDataBundle : IEnumerable
     {
-		List<NetworkedSensorDataItem> dataItems;
+        /// <summary>
+        ///     Collection of data items that the bundle represents.
+        /// </summary>
+		private List<NetworkedSensorDataItem> DataItems;
+
+        /// <summary>
+        ///     Default constructor; instantiates dataItems but leaves it empty.
+        /// </summary>
         public NetworkedSensorDataBundle()
         {
+            DataItems = new List<NetworkedSensorDataItem>();
         }
 
-		public class NetworkedSensorDataItem {
-			
-		}
+        public NetworkedSensorDataItem this[string Key]
+        {
+            get
+            {
+                return DataItems.Find(T => T.Key == Key);
+            }
+        }
 
+        public IEnumerator GetEnumerator()
+        {
+            return DataItems.GetEnumerator();
+        }
     }
 }
