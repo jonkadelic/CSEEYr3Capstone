@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace IoT_Hub
+namespace DeviceDriverPluginSystem.GenericSensor
 {
-    public class NetworkedSensorDataBundle : IEnumerable, DeviceDriverPluginSystem.IDeviceDriver
+    public class SensorDataBundle : IEnumerable
     {
         /// <summary>
         ///     Collection of data items that the bundle represents.
         /// </summary>
-		private List<NetworkedSensorDataItem> DataItems;
+		private List<SensorDataItem> DataItems;
 
         /// <summary>
-        ///     Default constructor; instantiates DataItems but leaves it empty.
+        ///     Creates a List of NetworkedSensorDataItem from an IEnumerable of NetworkedSensorDataItem.
         /// </summary>
-        public NetworkedSensorDataBundle()
+        public SensorDataBundle(IEnumerable<SensorDataItem> DataItems) 
         {
-            DataItems = new List<NetworkedSensorDataItem>();
+            this.DataItems = DataItems.ToList();
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace IoT_Hub
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if Key is not present in the list of NetworkedSensorDataItem.
         /// </exception>
-        public NetworkedSensorDataItem this[string Key]
+        public SensorDataItem this[string Key]
         {
             get
             {

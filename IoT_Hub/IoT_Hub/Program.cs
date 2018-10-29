@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,12 @@ namespace IoT_Hub
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
+            while (true)
+            {
+                JArray j = DeviceDriver_Lifx_LBA19E27UC10EU.MainClass.GetAllDevices();
+                Console.WriteLine(j.ToString());
+                Console.ReadLine();
+            }
         }
     }
 }

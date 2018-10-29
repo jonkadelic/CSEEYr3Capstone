@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DeviceDriverPluginSystem.GenericDevice;
+using System;
 using System.Collections.Generic;
 
-namespace IoT_Hub.Interfaces
+namespace DeviceDriverPluginSystem.GenericSensor
 {
 	/// <summary>
     ///     Interface that represents a device that is capable of reading data about its environment and sending it to the IoT hub.
     /// </summary>
-    public interface INetworkedSensor
+    public interface IGenericSensor : IGenericDevice
     {
         /// <summary>
         ///     Fetches data from the device the class implementing INetworkedSensor represents.
@@ -14,6 +15,6 @@ namespace IoT_Hub.Interfaces
         /// <returns>
         ///     Data from the device as a NetworkedSensorDataBundle.
         /// </returns>
-		NetworkedSensorDataBundle FetchData();
+		SensorDataBundle FetchData();
     }
 }
