@@ -11,12 +11,28 @@ namespace IoT_Hub
     {
         static void Main(string[] args)
         {
-            while (true)
-            {
-                JArray j = DeviceDriver_Lifx_LBA19E27UC10EU.MainClass.GetAllDevices();
-                Console.WriteLine(j.ToString());
-                Console.ReadLine();
-            }
+            DeviceDriver_Lifx_Color_A19.Device.GetDevices();
+            var d = DeviceDriver_Lifx_Color_A19.Device.Devices.First();
+            d.Powered = false;
+            Console.ReadLine();
+            d.Powered = true;
+            Console.ReadLine();
+            d.Hue = 0;
+            Console.ReadLine();
+            d.Hue = 180;
+            Console.ReadLine();
+            d.Saturation = 0.0d;
+            Console.ReadLine();
+            d.Saturation = 1.0d;
+            Console.ReadLine();
+            d.Lightness = 0.1d;
+            Console.ReadLine();
+            d.Lightness = 1.0d;
+            Console.ReadLine();
+            d.Warmth = 1500;
+            Console.ReadLine();
+            d.Warmth = 9000;
+            Console.ReadLine();
         }
     }
 }

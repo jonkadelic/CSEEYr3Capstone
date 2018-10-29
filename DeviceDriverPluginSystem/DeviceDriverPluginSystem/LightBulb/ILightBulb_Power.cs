@@ -6,6 +6,6 @@ namespace DeviceDriverPluginSystem.LightBulb
 {
     public interface ILightBulb_Power
     {
-        bool Power { get; set; }
+        bool Powered { get; set; }
     }
 }

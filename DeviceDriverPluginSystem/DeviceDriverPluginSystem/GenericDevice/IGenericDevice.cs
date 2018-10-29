@@ -5,7 +5,7 @@
         /// <summary>
         ///     The name of the device.
         /// </summary>
-        string Name { get; set; }
+        string Label { get; set; }
 
     }
 }
