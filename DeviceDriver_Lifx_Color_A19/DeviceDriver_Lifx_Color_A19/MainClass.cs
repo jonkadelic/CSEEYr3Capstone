@@ -68,6 +68,11 @@ namespace DeviceDriver_Lifx_Color_A19
                 return;
             }
         }
+
+        /// <summary>
+        ///     Provided by ILightBulb_Power; allows lightbulb to be turned on and off.
+        ///     Acceptable values: true and false
+        /// </summary>
         public bool Powered
         {
             get
@@ -79,6 +84,11 @@ namespace DeviceDriver_Lifx_Color_A19
                 SetState("power", value ? "on" : "off");
             }
         }
+        /// <summary>
+        ///     Provided by ILightBulb_HSL; allows hue to be set as color wheel.
+        ///     Interface specifies double but Lifx provides int; however, it is expected that most implementations will use double.
+        ///     Acceptable values: 0.0d-360.0d
+        /// </summary>
         public double Hue
         {
             get
@@ -91,6 +101,10 @@ namespace DeviceDriver_Lifx_Color_A19
                     SetState("color", "hue:" + ((int) value).ToString());
             }
         }
+        /// <summary>
+        ///     Provided by ILightBulb_HSL; allows saturation to be set (how white the light is)
+        ///     Acceptable values: 0.0d-1.0d
+        /// </summary>
         public double Saturation
         {
             get
@@ -103,6 +117,11 @@ namespace DeviceDriver_Lifx_Color_A19
                     SetState("color", "saturation:" + value.ToString());
             }
         }
+        /// <summary>
+        ///     Provided by ILightBulb_HSL; allows lightness to be set (how bright the bulb is)
+        ///     Analogous to brightness.
+        ///     Acceptable values: 0.0d-1.0d (note: setting value to 0.0d also turns off the bulb, setting Powered to false. This is an API thing)
+        /// </summary>
         public double Lightness
         {
             get
@@ -115,6 +134,11 @@ namespace DeviceDriver_Lifx_Color_A19
                     SetState("color", "brightness:" + value.ToString());
             }
         }
+        /// <summary>
+        ///     Provided by ILightBulb_Warmth; allows warmth of the bulb in degrees Kelvin to be set.
+        ///     In Lifx API, sets Saturation to 0
+        ///     Acceptable values: 1500-9000.
+        /// </summary>
         public int Warmth
         {
             get
@@ -127,7 +151,12 @@ namespace DeviceDriver_Lifx_Color_A19
                     SetState("color", "kelvin:" + value.ToString());
             }
         }
-
+        /// <summary>
+        ///     Fetches the JSON of this specific device from the Lifx servers, using its ID.
+        /// </summary>
+        /// <returns>
+        ///     JSON array of information about the specific device.
+        /// </returns>
         public JArray GetJson()
         {
             HttpClient client = new HttpClient();
@@ -150,6 +179,12 @@ namespace DeviceDriver_Lifx_Color_A19
             }
         }
 
+        /// <summary>
+        ///     Fetches JSON of all Lifx devices registered to the access token provided.
+        /// </summary>
+        /// <returns>
+        ///     JSON array of information about all devices.
+        /// </returns>
         public static JArray GetAllJson()
         {
             HttpClient client = new HttpClient();
@@ -172,6 +207,10 @@ namespace DeviceDriver_Lifx_Color_A19
             }
         }
 
+        /// <summary>
+        ///     Retrieves the 
+        /// </summary>
+        /// <returns></returns>
         public JToken GetElementInJson()
         {
             return GetJson().Single(T => T["id"].ToString() == Id);
