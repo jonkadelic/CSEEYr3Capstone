@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DeviceDriverPluginSystem;
+using DeviceDriverPluginSystem.GenericDevice;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,28 +14,25 @@ namespace IoT_Hub
     {
         static void Main(string[] args)
         {
-            DeviceDriver_Lifx_Color_A19.Device.GetDevices();
-            var d = DeviceDriver_Lifx_Color_A19.Device.Devices.First();
-            d.Powered = false;
-            Console.ReadLine();
-            d.Powered = true;
-            Console.ReadLine();
-            d.Hue = 0;
-            Console.ReadLine();
-            d.Hue = 180;
-            Console.ReadLine();
-            d.Saturation = 0.0d;
-            Console.ReadLine();
-            d.Saturation = 1.0d;
-            Console.ReadLine();
-            d.Lightness = 0.1d;
-            Console.ReadLine();
-            d.Lightness = 1.0d;
-            Console.ReadLine();
-            d.Warmth = 1500;
-            Console.ReadLine();
-            d.Warmth = 9000;
-            Console.ReadLine();
+            DriverLoader.LoadDrivers();
+            foreach (var s in DriverLoader.DriverInterfaces)
+            {
+                Console.WriteLine(s.Key.Name);
+                foreach (string t in s.Key.GetMethods().Select(T => T.Name))
+                {
+                    Console.WriteLine(t);
+                }
+                dynamic q = s.Key.GetMethod("GetDevices").Invoke(null, null);
+                Console.WriteLine(q.Count);
+                foreach (dynamic gd in q)
+                {
+                    foreach (var r in s.Value)
+                    {
+                        Console.WriteLine(r.InvokeMember("get_Value", System.Reflection.BindingFlags.InvokeMethod, null, gd, null));
+                    }
+                }
+            }
+            Console.Read();
         }
     }
 }

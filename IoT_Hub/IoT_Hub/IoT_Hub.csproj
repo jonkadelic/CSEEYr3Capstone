@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PluginLoader.cs" />
+    <Compile Include="DriverLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>copy "C:\Users\josep\Source\Repos\capstone_project\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\bin\Debug\netstandard1.4\DeviceDriver_Lifx_Color_A19.dll" "C:\Users\josep\Source\Repos\capstone_project\IoT_Hub\IoT_Hub\bin\Debug\plugins\"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
