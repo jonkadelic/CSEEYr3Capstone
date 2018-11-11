@@ -7,24 +7,28 @@ namespace DeviceDriverPluginSystem
     public class DeviceValue<T> : DeviceValue
     {
         public Func<T> Get;
-        public Func<bool, T> Set;
-        public string Label { get; }
+        public Func<T, bool> Set;
+        public readonly T minValue;
+        public readonly T maxValue;
 
-        public DeviceValue(Func<T> get, Func<bool, T> set, string label) : base(typeof(T))
+        public DeviceValue(Func<T> get, Func<T, bool> set, string label, T minValue, T maxValue) : base(typeof(T), label)
         {
             Get = get;
             Set = set;
-            Label = label;
+            this.minValue = minValue;
+            this.maxValue = maxValue;
         }
     }
 
     public class DeviceValue
     {
         public Type ValueType;
+        public string Label { get; }
 
-        public DeviceValue(Type type)
+        public DeviceValue(Type type, string label)
         {
             ValueType = type;
+            Label = label;
         }
     }
 }

@@ -15,20 +15,16 @@ namespace IoT_Hub
         static void Main(string[] args)
         {
             DriverLoader.LoadDrivers();
-            foreach (var s in DriverLoader.DriverInterfaces)
+            foreach (var s in DriverLoader.Drivers)
             {
-                Console.WriteLine(s.Key.Name);
-                foreach (string t in s.Key.GetMethods().Select(T => T.Name))
+                s.InvokeMember("RefreshDeviceList", System.Reflection.BindingFlags.InvokeMethod, null, null, null);
+                foreach (var q in s.BaseType.GetField("Devices").GetValue(null) as List<GenericDevice>)
                 {
-                    Console.WriteLine(t);
-                }
-                dynamic q = s.Key.GetMethod("GetDevices").Invoke(null, null);
-                Console.WriteLine(q.Count);
-                foreach (dynamic gd in q)
-                {
-                    foreach (var r in s.Value)
+                    foreach (var r in q.DeviceValues)
                     {
-                        Console.WriteLine(r.InvokeMember("get_Value", System.Reflection.BindingFlags.InvokeMethod, null, gd, null));
+                        Type valueType = typeof(DeviceValue<>).MakeGenericType(r.ValueType);
+                        dynamic devVal = Convert.ChangeType(r, valueType);
+                        Console.WriteLine(devVal.Get());
                     }
                 }
             }
