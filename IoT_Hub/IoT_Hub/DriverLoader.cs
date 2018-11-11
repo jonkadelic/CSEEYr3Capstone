@@ -26,7 +26,7 @@ namespace IoT_Hub
                 {
                     foreach(Type type in assembly.GetExportedTypes())
                     {
-                        if (type.GetInterfaces().Contains(typeof(IGenericDevice)))
+                        if (type.BaseType == typeof(GenericDevice))
                         {
                             List<Type> valueInterfaces = type.GetInterfaces().Where(T => T.GetInterfaces().Contains(typeof(IDeviceValue))).ToList();
                             DriverInterfaces.Add(type, valueInterfaces);

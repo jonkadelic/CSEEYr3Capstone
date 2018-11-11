@@ -10,23 +10,23 @@ using DeviceDriverPluginSystem;
 
 namespace DeviceDriver_Lifx_Color_A19
 {
-    public class Device : IGenericDevice, IPowered, IHue, ISaturation, IBrightness, IWarmth
+    public class Device : GenericDevice, IPowered, IHue, ISaturation, IBrightness, IWarmth
     {
         /// <summary>
         ///     Creates a new Device object with unique ID provided by the JSON data from Lifx.
         /// </summary>
-        /// <param name="Id">
+        /// <param name="LifxID">
         ///     The unique Lifx API of the device.
         /// </param>
-        private Device(string Id)
+        private Device(string LifxID)
         {
-            this.Id = Id;
+            this.LifxID = LifxID;
         }
 
         /// <summary>
         ///     The Lifx API ID of the device.
         /// </summary>
-        private readonly string Id;
+        private readonly string LifxID;
 
         /// <summary>
         ///     The access token for the Lifx API; needs to be made changeable in the future.
@@ -52,7 +52,7 @@ namespace DeviceDriver_Lifx_Color_A19
         ///     Label of the device as provided by Lifx JSON.
         ///     Cannot be changed by public API so invoking set method does nothing.
         /// </summary>
-        public string Label
+        public new string Label
         {
             get
             {
@@ -64,9 +64,9 @@ namespace DeviceDriver_Lifx_Color_A19
             }
         }
 
-        public static List<IGenericDevice> GetDevices()
+        public static List<GenericDevice> GetDevices()
         { 
-            List<IGenericDevice> Devices = new List<IGenericDevice>();
+            List<GenericDevice> Devices = new List<GenericDevice>();
             JArray json = GetAllJson();
             foreach (JToken item in json.Children())
                 if (item["product"]["identifier"].ToString() == Identifier)
@@ -196,7 +196,7 @@ namespace DeviceDriver_Lifx_Color_A19
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage
             {
-                RequestUri = new Uri(HttpUrl + "id:" + Id),
+                RequestUri = new Uri(HttpUrl + "id:" + LifxID),
                 Method = HttpMethod.Get,
                 Headers =
                 {
@@ -249,7 +249,7 @@ namespace DeviceDriver_Lifx_Color_A19
         /// </returns>
         private JToken GetElementInJson()
         {
-            return GetJson().Single(T => T["id"].ToString() == Id);
+            return GetJson().Single(T => T["id"].ToString() == LifxID);
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace DeviceDriver_Lifx_Color_A19
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add(HttpHeader[0], HttpHeader[1]);
-            HttpResponseMessage response = client.PutAsync(HttpUrl + "id:" + Id + "/state", new StringContent(state + "=" + value, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
+            HttpResponseMessage response = client.PutAsync(HttpUrl + "id:" + LifxID + "/state", new StringContent(state + "=" + value, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
             Console.WriteLine(response.Content.ReadAsStringAsync().Result);
         }
     }
