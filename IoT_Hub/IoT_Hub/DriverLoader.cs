@@ -10,7 +10,7 @@ namespace IoT_Hub
 {
     public class DriverLoader
     {
-        public static List<Type> Drivers = new List<Type>();
+        public static List<Driver> Drivers = new List<Driver>();
 
         public static void LoadDrivers()
         {
@@ -25,7 +25,7 @@ namespace IoT_Hub
                     {
                         if (type.BaseType == typeof(GenericDevice))
                         {
-                            Drivers.Add(type);
+                            Drivers.Add(new Driver(type));
                         }
                     }
                 }
