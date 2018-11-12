@@ -32,24 +32,7 @@ namespace DeviceDriverPluginSystem.GenericSensor
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if Key is not present in the list of NetworkedSensorDataItem.
         /// </exception>
-        public SensorDataItem this[string Key]
-        {
-            get
-            {
-                try
-                {
-                    int index = DataItems.FindIndex(T => T.Key == Key);
-                    if (index == -1)
-                        throw new ArgumentOutOfRangeException();
-                    else
-                        return DataItems[index];
-                }
-                catch (ArgumentNullException)
-                {
-                    return null;
-                }
-            }
-        }
+        public SensorDataItem this[string Key] => DataItems.Find(T => T.Key == Key);
 
         /// <summary>
         ///     Fetches the enumerator of the DataItems list.
@@ -57,9 +40,6 @@ namespace DeviceDriverPluginSystem.GenericSensor
         /// <returns>
         ///     DataItems' enumerator.
         /// </returns>
-        public IEnumerator GetEnumerator()
-        {
-            return DataItems.GetEnumerator();
-        }
+        public IEnumerator GetEnumerator() => DataItems.GetEnumerator();
     }
 }

@@ -1,8 +1,4 @@
-﻿using DeviceDriverPluginSystem.GenericDevice;
-using System;
-using System.Collections.Generic;
-
-namespace DeviceDriverPluginSystem.GenericSensor
+﻿namespace DeviceDriverPluginSystem.GenericSensor
 {
 	/// <summary>
     ///     Interface that represents a device that is capable of reading data about its environment and sending it to the IoT hub.

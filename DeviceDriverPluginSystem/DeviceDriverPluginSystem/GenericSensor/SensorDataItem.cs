@@ -2,11 +2,22 @@
 {
     public abstract class SensorDataItem
     {
-        public string Key { get; private set; }
-        public string Text { get; private set; }
+        public string Key { get; }
+        public string Text { get; }
+
+        internal SensorDataItem(string key, string text)
+        {
+            Key = key;
+            Text = text;
+        }
     }
-    public class SensorDataItem<T> : SensorDataItem
+    public class SensorDataItem<SensorDataType> : SensorDataItem
     {
-        public T Value { get; private set; }
+        public SensorDataType Value { get; }
+
+        public SensorDataItem(string key, string text, SensorDataType value) : base(key, text)
+        {
+            Value = value;
+        }
 	}
 }
