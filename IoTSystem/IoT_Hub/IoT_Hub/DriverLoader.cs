@@ -22,7 +22,7 @@ namespace IoT_Hub
             {
                 foreach (Type type in assembly.GetExportedTypes())
                 {
-                    if (type.BaseType == typeof(GenericDeviceDriver))
+                    if (type.BaseType == typeof(AbstractBasicDriver))
                     {
                         Drivers.Add(new Driver(type, type.InvokeMember("get_DeviceType", BindingFlags.InvokeMethod, null, null, null) as Type));
                     }

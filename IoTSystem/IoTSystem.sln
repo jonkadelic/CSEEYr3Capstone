@@ -3,11 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriver_Lifx_Color_A19", ".\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19.csproj", "{7374B04E-CC8A-4194-BC32-7E08767C14C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriver_Lifx_Color_A19", "DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19.csproj", "{7374B04E-CC8A-4194-BC32-7E08767C14C5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A1D5277-80EC-45C7-90AD-A92A4DE3F181} = {1A1D5277-80EC-45C7-90AD-A92A4DE3F181}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriverPluginSystem", ".\DeviceDriverPluginSystem\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj", "{1A1D5277-80EC-45C7-90AD-A92A4DE3F181}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriverPluginSystem", "DeviceDriverPluginSystem\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj", "{1A1D5277-80EC-45C7-90AD-A92A4DE3F181}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT_Hub", ".\IoT_Hub\IoT_Hub\IoT_Hub.csproj", "{C412588C-DE31-4272-AD4B-24F911935FBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT_Hub", "IoT_Hub\IoT_Hub\IoT_Hub.csproj", "{C412588C-DE31-4272-AD4B-24F911935FBD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7374B04E-CC8A-4194-BC32-7E08767C14C5} = {7374B04E-CC8A-4194-BC32-7E08767C14C5}
+		{1A1D5277-80EC-45C7-90AD-A92A4DE3F181} = {1A1D5277-80EC-45C7-90AD-A92A4DE3F181}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

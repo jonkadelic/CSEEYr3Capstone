@@ -19,9 +19,9 @@ namespace IoT_Hub
             {
                 foreach (var q in s.Devices)
                 {
-                    foreach (string r in q.ValueList)
+                    foreach (dynamic r in q.basicDevice.DeviceVariables)
                     {
-                        Console.WriteLine(q.GetValue(r));
+                        Console.WriteLine(r.Get());
                     }
                 }
             }

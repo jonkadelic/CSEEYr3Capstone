@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DeviceDriverPluginSystem">
-      <HintPath>..\..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\bin\Debug\netstandard1.4\DeviceDriverPluginSystem.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -47,12 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Device.cs" />
-    <Compile Include="DeviceDriver.cs" />
+    <Compile Include="Lightbulb.cs" />
+    <Compile Include="LightbulbDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj">
+      <Project>{1a1d5277-80ec-45c7-90ad-a92a4de3f181}</Project>
+      <Name>DeviceDriverPluginSystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

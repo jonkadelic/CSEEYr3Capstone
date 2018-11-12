@@ -2,7 +2,7 @@
 
 namespace DeviceDriverPluginSystem.Generics
 {
-    public class GenericDevice
+    public abstract class AbstractBasicDevice
     {
         /// <summary>
         ///     Static ID counter, used for assigning devices a new ID.
@@ -17,7 +17,7 @@ namespace DeviceDriverPluginSystem.Generics
         /// <summary>
         ///     A device identifier, unique across all devices and all drivers.
         /// </summary>
-        public int UID { get; }
+        public int UID { get; protected set; }
 
         /// <summary>
         ///     List of all the DeviceVariable instances associated with the device.
@@ -41,7 +41,7 @@ namespace DeviceDriverPluginSystem.Generics
         /// <param name="ID">
         ///     A numerical identifier for the class.
         /// </param>
-        public GenericDevice()
+        public AbstractBasicDevice()
         {
             UID = uidCounter++;
         }

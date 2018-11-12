@@ -9,19 +9,17 @@ namespace IoT_Hub
     public class DriverDevice
     {
         private readonly Type deviceType;
-        public GenericDevice device;
-        public DriverDevice(Type deviceType, GenericDevice device)
+        public readonly AbstractBasicDevice basicDevice;
+
+        public DriverDevice(Type deviceType, AbstractBasicDevice basicDevice)
         {
             this.deviceType = deviceType;
-            this.device = device;
+            this.basicDevice = basicDevice;
         }
-        public List<string> ValueList => device.DeviceVariables.Select(x => x.Label).ToList();
-        public dynamic GetValue(string name)
+
+        public dynamic GetConvertedDevice()
         {
-            DeviceVariable value = device[name];
-            Type valueType = typeof(DeviceVariable<>).MakeGenericType(value.VariableType);
-            dynamic devVal = Convert.ChangeType(value, valueType);
-            return devVal.Get();
+            return Convert.ChangeType(basicDevice, deviceType);
         }
 
     }

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DeviceDriver_Lifx_Color_A19
 {
-    public class DeviceDriver : GenericDeviceDriver
+    public class LightbulbDriver : AbstractBasicDriver
     {
         /// <summary>
         ///     The access token for the Lifx API; needs to be made changeable in the future.
@@ -29,24 +29,24 @@ namespace DeviceDriver_Lifx_Color_A19
 
         private static readonly HttpClient client = new HttpClient();
 
-        public static new List<GenericDevice> Devices
+        public static new List<AbstractBasicDevice> Devices
         {
             get
             {
-                List<GenericDevice> Devices = new List<GenericDevice>();
+                List<AbstractBasicDevice> Devices = new List<AbstractBasicDevice>();
                 JArray json = GetAllDevicesJson();
                 foreach (JToken deviceJson in json.Children())
                 {
                     if (deviceJson["product"]["identifier"].ToString() == ProductIdentifier)
                     {
-                        Devices.Add(new Device(deviceJson["id"].ToString()));
+                        Devices.Add(new Lightbulb(deviceJson["id"].ToString()));
                     }
                 }
                 return Devices;
             }
         }
 
-        public static new Type DeviceType => typeof(Device);
+        public static new Type DeviceType => typeof(Lightbulb);
 
         /// <summary>
         ///     Fetches JSON of all Lifx devices registered to the access token provided.
@@ -96,7 +96,7 @@ namespace DeviceDriver_Lifx_Color_A19
             {
                 response.EnsureSuccessStatusCode();
                 string json = response.Content.ReadAsStringAsync().Result;
-                return JArray.Parse(json);
+                return JArray.Parse(json)[0];
             }
         }
 
