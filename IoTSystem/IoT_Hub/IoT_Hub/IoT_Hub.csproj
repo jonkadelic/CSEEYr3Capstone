@@ -36,11 +36,7 @@
   <ItemGroup>
     <Reference Include="DeviceDriverPluginSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\bin\Debug\netstandard1.4\DeviceDriverPluginSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="DeviceDriver_Lifx_Color_A19, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\bin\Debug\netstandard1.4\DeviceDriver_Lifx_Color_A19.dll</HintPath>
+      <HintPath>..\..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\bin\Debug\DeviceDriverPluginSystem.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -82,7 +78,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "C:\Users\josep\Source\Repos\capstone_project\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\bin\Debug\netstandard1.4\DeviceDriver_Lifx_Color_A19.dll" "C:\Users\josep\Source\Repos\capstone_project\IoT_Hub\IoT_Hub\bin\Debug\plugins\"</PreBuildEvent>
+    <PreBuildEvent>copy "C:\Users\josep\Source\Repos\capstone_project\IOTSystem\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\bin\Debug\DeviceDriver_Lifx_Color_A19.dll" "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\IoT_Hub\IoT_Hub\bin\Debug\plugins\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -20,8 +20,7 @@ namespace IoT_Hub
         {
             get
             {
-                List<GenericDevice> temp = (driverType.GetProperty("Devices").GetValue(null) as List<GenericDevice>);
-                return (driverType.BaseType.InvokeMember("get_Devices", System.Reflection.BindingFlags.InvokeMethod, null, null, null) as List<GenericDevice>).Select(x => new DriverDevice(driverType, x)).ToList();
+                return (driverType.GetProperty("Devices").GetValue(null) as List<GenericDevice>).Select(x => new DriverDevice(driverType, x)).ToList();
             }
         }
     }
