@@ -14,7 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT_Hub", "IoT_Hub\IoT_Hub\
 	ProjectSection(ProjectDependencies) = postProject
 		{7374B04E-CC8A-4194-BC32-7E08767C14C5} = {7374B04E-CC8A-4194-BC32-7E08767C14C5}
 		{1A1D5277-80EC-45C7-90AD-A92A4DE3F181} = {1A1D5277-80EC-45C7-90AD-A92A4DE3F181}
+		{1E37A2D6-1E56-468B-8B98-44EB5EB5D131} = {1E37A2D6-1E56-468B-8B98-44EB5EB5D131}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriver_TP-LINK_HS100", "DeviceDriver_TP-LINK_HS100\DeviceDriver_TP-LINK_HS100.csproj", "{1E37A2D6-1E56-468B-8B98-44EB5EB5D131}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +37,10 @@ Global
 		{C412588C-DE31-4272-AD4B-24F911935FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C412588C-DE31-4272-AD4B-24F911935FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C412588C-DE31-4272-AD4B-24F911935FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E37A2D6-1E56-468B-8B98-44EB5EB5D131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E37A2D6-1E56-468B-8B98-44EB5EB5D131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E37A2D6-1E56-468B-8B98-44EB5EB5D131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E37A2D6-1E56-468B-8B98-44EB5EB5D131}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

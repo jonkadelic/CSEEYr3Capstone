@@ -1,21 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C412588C-DE31-4272-AD4B-24F911935FBD}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{1E37A2D6-1E56-468B-8B98-44EB5EB5D131}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IoT_Hub</RootNamespace>
-    <AssemblyName>IoT_Hub</AssemblyName>
+    <RootNamespace>DeviceDriver_TP_LINK_HS100</RootNamespace>
+    <AssemblyName>DeviceDriver_TP-LINK_HS100</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -61,39 +58,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Driver.cs" />
-    <Compile Include="DriverDevice.cs" />
-    <Compile Include="DriverLoader.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Plug.cs" />
+    <Compile Include="PlugDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj">
+    <ProjectReference Include="..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj">
       <Project>{1a1d5277-80ec-45c7-90ad-a92a4de3f181}</Project>
       <Name>DeviceDriverPluginSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DeviceDriver_TP-LINK_HS100\DeviceDriver_TP-LINK_HS100.csproj">
-      <Project>{1e37a2d6-1e56-468b-8b98-44eb5eb5d131}</Project>
-      <Name>DeviceDriver_TP-LINK_HS100</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "C:\Users\josep\Source\Repos\capstone_project\IOTSystem\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\bin\Debug\DeviceDriver_Lifx_Color_A19.dll" "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\IoT_Hub\IoT_Hub\bin\Debug\plugins\" &amp; copy "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\DeviceDriver_TP-LINK_HS100\bin\Debug\DeviceDriver_TP-LINK_HS100.dll" "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\IoT_Hub\IoT_Hub\bin\Debug\plugins\"</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

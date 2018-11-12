@@ -1,12 +1,8 @@
-﻿using DeviceDriverPluginSystem;
+﻿using System;
+using DeviceDriver_TP_LINK_HS100;
+using DeviceDriverPluginSystem;
 using DeviceDriverPluginSystem.Generics;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IoT_Hub
 {
@@ -25,7 +21,12 @@ namespace IoT_Hub
                     }
                 }
             }
-            Console.Read();
+            Console.ReadLine();
+            //Plug dev = PlugDriver.Devices[0] as Plug;
+            //(dev.DeviceVariables[0] as DeviceVariable<bool>).Set(false);
+            //JToken jt = JToken.Parse(PlugDriver.GetJsonDeviceInfo(dev.ApiID)["result"]["responseData"].ToString())["system"]["get_sysinfo"]["on_time"].Value<int> == 0;
+            //Console.WriteLine(jt);
+            //Console.ReadLine();
         }
     }
 }

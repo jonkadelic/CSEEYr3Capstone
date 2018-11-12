@@ -10,7 +10,7 @@ namespace DeviceDriver_Lifx_Color_A19
         /// <summary>
         ///     The Lifx API ID of the device.
         /// </summary>
-        private readonly string LifxID;
+        private readonly string ApiID;
 
         /// <summary>
         ///     Label of the device as provided by Lifx JSON.
@@ -20,23 +20,19 @@ namespace DeviceDriver_Lifx_Color_A19
         {
             get
             {
-                return LightbulbDriver.GetJsonByID(LifxID)["label"].ToString();
-            }
-            set
-            {
-                return;
+                return LightbulbDriver.GetJsonByID(ApiID)["label"].ToString();
             }
         }
 
         /// <summary>
         ///     Creates a new Device object with unique ID provided by the JSON data from Lifx.
         /// </summary>
-        /// <param name="LifxID">
+        /// <param name="ApiID">
         ///     The unique Lifx API of the device.
         /// </param>
-        internal Lightbulb(string LifxID)
+        internal Lightbulb(string ApiID)
         {
-            this.LifxID = LifxID;
+            this.ApiID = ApiID;
             PopulateDeviceVariables();
         }
 
@@ -59,25 +55,25 @@ namespace DeviceDriver_Lifx_Color_A19
         }
 
         private bool IsBulbOn() => 
-            LightbulbDriver.GetJsonByID(LifxID)["power"].ToString() == "on";
+            LightbulbDriver.GetJsonByID(ApiID)["power"].ToString() == "on";
         private int GetBulbHue() => 
-            LightbulbDriver.GetJsonByID(LifxID)["color"]["hue"].Value<int>();
+            LightbulbDriver.GetJsonByID(ApiID)["color"]["hue"].Value<int>();
         private double GetBulbSaturation() => 
-            LightbulbDriver.GetJsonByID(LifxID)["color"]["saturation"].Value<double>();
+            LightbulbDriver.GetJsonByID(ApiID)["color"]["saturation"].Value<double>();
         private double GetBulbBrightness() =>
-            LightbulbDriver.GetJsonByID(LifxID)["brightness"].Value<double>();
+            LightbulbDriver.GetJsonByID(ApiID)["brightness"].Value<double>();
         private int GetBulbWarmth() =>
-            LightbulbDriver.GetJsonByID(LifxID)["color"]["kelvin"].Value<int>();
+            LightbulbDriver.GetJsonByID(ApiID)["color"]["kelvin"].Value<int>();
 
         private void SetBulbOn(bool newState) => 
-            LightbulbDriver.SetDeviceProperty(LifxID, "power", newState ? "on" : "off");
+            LightbulbDriver.SetDeviceProperty(ApiID, "power", newState ? "on" : "off");
         private void SetBulbHue(int newHue) =>
-            LightbulbDriver.SetDeviceProperty(LifxID, "color", "hue:" + newHue.ToString());
+            LightbulbDriver.SetDeviceProperty(ApiID, "color", "hue:" + newHue.ToString());
         private void SetBulbSaturation(double newSaturation) =>
-            LightbulbDriver.SetDeviceProperty(LifxID, "color", "saturation:" + newSaturation.ToString());
+            LightbulbDriver.SetDeviceProperty(ApiID, "color", "saturation:" + newSaturation.ToString());
         private void SetBulbBrightness(double newBrightness) =>
-            LightbulbDriver.SetDeviceProperty(LifxID, "brightness", newBrightness.ToString());
+            LightbulbDriver.SetDeviceProperty(ApiID, "brightness", newBrightness.ToString());
         private void SetBulbWarmth(int newWarmth) =>
-            LightbulbDriver.SetDeviceProperty(LifxID, "color", "warmth:" + newWarmth.ToString());
+            LightbulbDriver.SetDeviceProperty(ApiID, "color", "warmth:" + newWarmth.ToString());
     }
 }

@@ -1,8 +1,5 @@
-﻿using DeviceDriverPluginSystem;
-using DeviceDriverPluginSystem.Generics;
+﻿using DeviceDriverPluginSystem.Generics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace IoT_Hub
 {

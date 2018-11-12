@@ -29,6 +29,8 @@ namespace DeviceDriver_Lifx_Color_A19
 
         private static readonly HttpClient client = new HttpClient();
 
+        public static new Type DeviceType => typeof(Lightbulb);
+
         public static new List<AbstractBasicDevice> Devices
         {
             get
@@ -45,8 +47,6 @@ namespace DeviceDriver_Lifx_Color_A19
                 return Devices;
             }
         }
-
-        public static new Type DeviceType => typeof(Lightbulb);
 
         /// <summary>
         ///     Fetches JSON of all Lifx devices registered to the access token provided.
@@ -80,11 +80,11 @@ namespace DeviceDriver_Lifx_Color_A19
         /// <returns>
         ///     JSON of the lightbulb as a JToken.
         /// </returns>
-        internal static JToken GetJsonByID(string LifxID)
+        internal static JToken GetJsonByID(string apiID)
         {
             HttpRequestMessage request = new HttpRequestMessage
             {
-                RequestUri = new Uri(HttpUrl + "id:" + LifxID),
+                RequestUri = new Uri(HttpUrl + "id:" + apiID),
                 Method = HttpMethod.Get,
                 Headers =
                 {
@@ -110,11 +110,11 @@ namespace DeviceDriver_Lifx_Color_A19
         /// <param name="value">
         ///     The value to set the state to.
         /// </param>
-        internal static bool SetDeviceProperty(string lifxID, string state, string value)
+        internal static bool SetDeviceProperty(string apiID, string state, string value)
         {
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add(HttpHeader[0], HttpHeader[1]);
-            HttpResponseMessage response = client.PutAsync(HttpUrl + "id:" + lifxID + "/state", new StringContent(state + "=" + value, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
+            HttpResponseMessage response = client.PutAsync(HttpUrl + "id:" + apiID + "/state", new StringContent(state + "=" + value, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
             Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
             return true;
         }
