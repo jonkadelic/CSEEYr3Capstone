@@ -5,6 +5,11 @@ namespace DeviceDriverPluginSystem.Generics
     public class GenericDevice
     {
         /// <summary>
+        ///     Static ID counter, used for assigning devices a new ID.
+        /// </summary>
+        protected static int uidCounter = 0;
+
+        /// <summary>
         ///     The name of the device.
         /// </summary>
         public string Label { get; set; }
@@ -36,9 +41,9 @@ namespace DeviceDriverPluginSystem.Generics
         /// <param name="ID">
         ///     A numerical identifier for the class.
         /// </param>
-        internal GenericDevice(int ID)
+        public GenericDevice()
         {
-            UID = ID;
+            UID = uidCounter++;
         }
     }
 }

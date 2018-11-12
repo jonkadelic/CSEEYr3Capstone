@@ -1,5 +1,5 @@
 ﻿using DeviceDriverPluginSystem;
-using DeviceDriverPluginSystem.GenericDevice;
+using DeviceDriverPluginSystem.Generics;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;

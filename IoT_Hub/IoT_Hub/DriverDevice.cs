@@ -1,5 +1,5 @@
 ﻿using DeviceDriverPluginSystem;
-using DeviceDriverPluginSystem.GenericDevice;
+using DeviceDriverPluginSystem.Generics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +8,18 @@ namespace IoT_Hub
 {
     public class DriverDevice
     {
-        private readonly Type driverType;
+        private readonly Type deviceType;
         public GenericDevice device;
-        public DriverDevice(Type driverType, GenericDevice device)
+        public DriverDevice(Type deviceType, GenericDevice device)
         {
-            this.driverType = driverType;
+            this.deviceType = deviceType;
             this.device = device;
         }
-        public List<string> ValueList => device.DeviceValues.Select(x => x.Label).ToList();
+        public List<string> ValueList => device.DeviceVariables.Select(x => x.Label).ToList();
         public dynamic GetValue(string name)
         {
-            DeviceValue value = device[name];
-            Type valueType = typeof(DeviceValue<>).MakeGenericType(value.ValueType);
+            DeviceVariable value = device[name];
+            Type valueType = typeof(DeviceVariable<>).MakeGenericType(value.VariableType);
             dynamic devVal = Convert.ChangeType(value, valueType);
             return devVal.Get();
         }

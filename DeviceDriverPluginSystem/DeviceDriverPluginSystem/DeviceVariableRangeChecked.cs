@@ -4,16 +4,9 @@ using System.Text;
 
 namespace DeviceDriverPluginSystem
 {
-    class DeviceVariableRangeChecked<VariableType> : DeviceVariable<VariableType> where VariableType : IComparable
+    public class DeviceVariableRangeChecked<VariableType> : DeviceVariable<VariableType> where VariableType : IComparable
     {
-        /// <summary>
-        ///     The minimum value that the DeviceVariable can be set to.
-        /// </summary>
-        private readonly VariableType minValue;
-        /// <summary>
-        ///     The maximum value that the DeviceVariable can be set to.
-        /// </summary>
-        private readonly VariableType maxValue;
+        private Range<VariableType> ValueRange;
 
         /// <summary>
         ///     Creates a new instance of DeviceVariable using range checking.
@@ -33,10 +26,9 @@ namespace DeviceDriverPluginSystem
         /// <param name="maxValue">
         ///     The minimum value the variable can take.
         /// </param>
-        public DeviceVariableRangeChecked(Func<VariableType> get, Action<VariableType> set_NoRangeCheck, string label, VariableType minValue, VariableType maxValue) : base(get, set_NoRangeCheck, label)
+        public DeviceVariableRangeChecked(Func<VariableType> get, Action<VariableType> set_NoRangeCheck, string label, Range<VariableType> valueRange) : base(get, set_NoRangeCheck, label)
         {
-            this.minValue = minValue;
-            this.maxValue = maxValue;
+            ValueRange = valueRange;
             IsInputRangeChecked = true;
         }
 
@@ -52,26 +44,12 @@ namespace DeviceDriverPluginSystem
         /// </returns>
         public new bool Set(VariableType value)
         {
-            if (IsInValueRange(value))
+            if (ValueRange.Contains(value))
             {
                 base.Set(value);
                 return true;
             }
             else return false;
-        }
-
-        /// <summary>
-        ///     Checks if a value is in the range specified by minValue and maxValue (inclusive).
-        /// </summary>
-        /// <param name="value">
-        ///     The value to be checked.
-        /// </param>
-        /// <returns>
-        ///     Result of comparison - true if in range and false if outside.
-        /// </returns>
-        private bool IsInValueRange(VariableType value)
-        {
-            return value.CompareTo(minValue) >= 0 && value.CompareTo(maxValue) <= 0;
         }
     }
 }

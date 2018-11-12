@@ -1,9 +1,7 @@
-﻿using DeviceDriverPluginSystem.GenericDevice;
-using DeviceDriverPluginSystem;
+﻿using DeviceDriverPluginSystem.Generics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace IoT_Hub
@@ -19,14 +17,14 @@ namespace IoT_Hub
             foreach (string dll in Directory.GetFiles(path, "*.DLL"))
             {
                 assemblies.Add(Assembly.LoadFile(dll));
-                foreach(Assembly assembly in assemblies)
+            }
+            foreach (Assembly assembly in assemblies)
+            {
+                foreach (Type type in assembly.GetExportedTypes())
                 {
-                    foreach(Type type in assembly.GetExportedTypes())
+                    if (type.BaseType == typeof(GenericDeviceDriver))
                     {
-                        if (type.BaseType == typeof(GenericDevice))
-                        {
-                            Drivers.Add(new Driver(type));
-                        }
+                        Drivers.Add(new Driver(type, type.InvokeMember("get_DeviceType", BindingFlags.InvokeMethod, null, null, null) as Type));
                     }
                 }
             }
