@@ -24,6 +24,10 @@ namespace DeviceDriver_Lifx_Color_A19
             }
         }
 
+        public new string Name => "Color 1000";
+
+        public new string Manufacturer => "Lifx";
+
         /// <summary>
         ///     Creates a new Device object with unique ID provided by the JSON data from Lifx.
         /// </summary>

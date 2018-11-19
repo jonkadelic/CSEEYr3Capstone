@@ -1,0 +1,88 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "iot_hub_output.schema.json",
+    "title": "IoT Hub Data Output",
+    "description": "Output data for the IoT hub to send to a client.",
+    "type": "object",
+    "properties": {
+        "label": {
+            "title": "IoT Hub Label",
+            "description": "The user-defined label of the IoT hub.",
+            "type": "string",
+            "default": "IoT Hub"
+        },
+        "devices": {
+            "title": "IoT Hub Devices",
+            "description": "Array of devices the IoT hub is aware of.",
+            "type": "array",
+            "items": {
+                "title": "IoT Hub Device",
+                "description": "Device the IoT hub is aware of.",
+                "type": "object",
+                "properties": {
+                    "label": {
+                        "title": "Device Label",
+                        "description": "User-set nickname for the device.",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Device Name",
+                        "description": "Displayable, manufacturer-set name of the device.",
+                        "type": "string"
+                    },
+                    "manufacturer": {
+                        "title": "Device Manufacturer",
+                        "description": "Displayable, name of the device's manufacturer.",
+                        "type": "string"
+                    },
+                    "deviceId": {
+                        "title": "Device ID",
+                        "description": "Unique integer ID of the device used by the hub.",
+                        "type": "integer"
+                    },
+                    "driverId": {
+                        "title": "Driver ID",
+                        "description": "Unique integer ID of the driver that manages this device on the hub.",
+                        "type": "integer"
+                    },
+                    "variables": {
+                        "title": "Device Variables",
+                        "description": "Variables of the device that can be controlled by the IoT hub.",
+                        "type": "array",
+                        "items": {
+                            "title": "Device Variable",
+                            "description": "Variable of the device that can be controlled by the IoT hub.",
+                            "type": "object",
+                            "properties": {
+                                "label": {
+                                    "title": "Variable Label",
+                                    "description": "The label of the variable for display.",
+                                    "type": "string"
+                                },
+                                "identifier": {
+                                    "title": "Variable Identifier",
+                                    "description": "Identifier for the variable, unique within the device.",
+                                    "type": "integer"
+                                },
+                                "type": {
+                                    "title": "Variable Type",
+                                    "description": "The type of the variable.",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Variable Value",
+                                    "description": "The current value of the variable.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [ "label", "identifier", "type", "hasGet", "value" ]
+                        }
+                    }
+                },
+                "required": [ "label", "name", "manufacturer", "deviceId", "driverId", "variables" ]
+            },
+            "uniqueItems": true
+        }
+    },
+    "required": [ "label", "devices" ]
+}

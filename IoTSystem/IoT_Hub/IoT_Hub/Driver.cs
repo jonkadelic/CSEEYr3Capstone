@@ -11,16 +11,22 @@ namespace IoT_Hub
         {
             this.driverType = driverType;
             this.deviceType = deviceType;
+            driverId = driverCounter++;
         }
 
         private readonly Type driverType;
         private readonly Type deviceType;
+
+        public readonly int driverId;
+
+        private static int driverCounter = 0;
+        private int deviceCounter = 0;
         public string Name => driverType.Name;
         public List<DriverDevice> Devices
         {
             get
             {
-                return (driverType.GetProperty("Devices").GetValue(null) as List<AbstractBasicDevice>).Select(x => new DriverDevice(deviceType, x)).ToList();
+                return (driverType.GetProperty("Devices").GetValue(null) as List<AbstractBasicDevice>).Select(x => new DriverDevice(deviceType, x, deviceCounter++)).ToList();
             }
         }
     }

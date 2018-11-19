@@ -11,7 +11,7 @@ namespace DeviceDriverPluginSystem
         /// </summary>
         public Type VariableType;
         /// <summary>
-        ///     Name to uniquely identify the variable, e.g. "Powered", "Brightness".
+        ///     Variable name for printing, e.g. "Powered", "Brightness".
         /// </summary>
         public string Label { get; }
 
