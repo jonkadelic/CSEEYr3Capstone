@@ -60,7 +60,7 @@
     <None Include="Schema\OutputJsonSchema.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeviceDriverPluginSystem\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj">
+    <ProjectReference Include="..\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj">
       <Project>{1a1d5277-80ec-45c7-90ad-a92a4de3f181}</Project>
       <Name>DeviceDriverPluginSystem</Name>
     </ProjectReference>
@@ -71,7 +71,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy "C:\Users\josep\Source\Repos\capstone_project\IOTSystem\DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19\bin\Debug\DeviceDriver_Lifx_Color_A19.dll" "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\IoT_Hub\IoT_Hub\bin\Debug\plugins\" &amp; copy "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\DeviceDriver_TP-LINK_HS100\bin\Debug\DeviceDriver_TP-LINK_HS100.dll" "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\IoT_Hub\IoT_Hub\bin\Debug\plugins\"</PostBuildEvent>
+    <PostBuildEvent>copy "C:\Users\josep\Source\Repos\capstone_project\IOTSystem\DeviceDriver_Lifx_Color_A19\bin\Debug\DeviceDriver_Lifx_Color_A19.dll" "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\IoT_Hub\bin\Debug\plugins\" &amp; copy "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\DeviceDriver_TP-LINK_HS100\bin\Debug\DeviceDriver_TP-LINK_HS100.dll" "C:\Users\josep\Source\Repos\capstone_project\IoTSystem\IoT_Hub\bin\Debug\plugins\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

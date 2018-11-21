@@ -46,43 +46,17 @@
                         "type": "integer"
                     },
                     "variables": {
-                        "title": "Device Variables",
-                        "description": "Variables of the device that can be controlled by the IoT hub.",
+                        "title": "Device Attributes",
+                        "description": "Attributes of the device that can be controlled by the IoT hub.",
                         "type": "array",
                         "items": {
-                            "title": "Device Variable",
+                            "title": "Device Attribute",
                             "description": "Variable of the device that can be controlled by the IoT hub.",
-                            "type": "object",
-                            "properties": {
-                                "label": {
-                                    "title": "Variable Label",
-                                    "description": "The label of the variable for display.",
-                                    "type": "string"
-                                },
-                                "identifier": {
-                                    "title": "Variable Identifier",
-                                    "description": "Identifier for the variable, unique within the device.",
-                                    "type": "integer"
-                                },
-                                "type": {
-                                    "title": "Variable Type",
-                                    "description": "The type of the variable.",
-                                    "type": "string"
-                                },
-                                "value": {
-                                    "title": "Variable Value",
-                                    "description": "The current value of the variable.",
-                                    "type": "string"
-                                }
-                            },
-                            "required": [ "label", "identifier", "type", "hasGet", "value" ]
+                            "type": "string"
                         }
-                    }
-                },
-                "required": [ "label", "name", "manufacturer", "deviceId", "driverId", "variables" ]
-            },
-            "uniqueItems": true
+					}
+                }
+            }
         }
-    },
-    "required": [ "label", "devices" ]
+    }
 }

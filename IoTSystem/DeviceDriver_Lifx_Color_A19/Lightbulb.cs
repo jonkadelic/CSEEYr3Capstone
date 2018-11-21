@@ -16,13 +16,7 @@ namespace DeviceDriver_Lifx_Color_A19
         ///     Label of the device as provided by Lifx JSON.
         ///     Cannot be changed by public API so invoking set method does nothing.
         /// </summary>
-        public new string Label
-        {
-            get
-            {
-                return LightbulbDriver.GetJsonByID(ApiID)["label"].ToString();
-            }
-        }
+        public new string Label => LightbulbDriver.GetJsonByID(ApiID)["label"].ToString();
 
         public new string Name => "Color 1000";
 

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace IoT_Hub
 {
@@ -58,7 +57,7 @@ namespace IoT_Hub
         private static List<string> GenerateListenerPrefixes()
         {
             List<string> outList = new List<string>();
-            string baseUrl = "http://+:13420/";
+            string baseUrl = "http://+:80/";
             outList.Add(baseUrl + "all/");
             foreach (Driver d in drivers)
             {
@@ -77,13 +76,42 @@ namespace IoT_Hub
 
         private static string GetResponseString(HttpListenerRequest request)
         {
+            OutputJsonProducer outputJsonProducer = new OutputJsonProducer(drivers, "IoT Hub");
             string[] urlParts = SplitRawUrlIntoParts(request.RawUrl);
             if (urlParts.Length == 1 && urlParts[0] == "all")
             {
-                OutputJsonProducer outputJsonProducer = new OutputJsonProducer(drivers, "IoT Hub");
-                return outputJsonProducer.GetHubInformation();
+                return outputJsonProducer.GetHubInformation().ToString();
             }
-            else return "Invalid request.";
+            else if (urlParts.Length >= 1)
+            {
+                Driver d = null;
+                DriverDevice dd = null;
+                DeviceAttribute da = null;
+                if (int.TryParse(urlParts[0], out int driverId))
+                {
+                    d = drivers.Where(x => x.driverId == driverId).First();
+                    if (d == null) return "Invalid request.";
+                }
+                if (urlParts.Length >= 2 && int.TryParse(urlParts[1], out int deviceId))
+                {
+                    dd = d.Devices.Where(x => x.deviceId == deviceId).First();
+                    if (dd == null) return "Invalid request.";
+                }
+                if (urlParts.Length >= 3)
+                {
+                    da = dd.basicDevice.DeviceAttributes.Where(x => x.Label == urlParts[2]).First();
+                    if (da == null) return "Invalid request.";
+                }
+                if (d != null && dd != null && da == null)
+                {
+                    return outputJsonProducer.GetDevice(d, dd).ToString();
+                }
+                else if (d != null && dd != null && da != null)
+                {
+                    return outputJsonProducer.GetDeviceAttribute(da).ToString();
+                }
+            }
+            return "Invalid request.";
         }
 
         private static string[] SplitRawUrlIntoParts(string rawUrl)

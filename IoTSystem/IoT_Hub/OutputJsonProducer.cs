@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DeviceDriverPluginSystem;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IoT_Hub
 {
@@ -15,7 +17,7 @@ namespace IoT_Hub
             this.hubName = hubName;
         }
 
-        public string GetHubInformation()
+        public JObject GetHubInformation()
         {
             Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Building hub information as JSON string");
             JObject outObject = new JObject
@@ -23,7 +25,7 @@ namespace IoT_Hub
                 { "label", hubName },
                 { "devices", GetAllDevices() }
             };
-            return outObject.ToString();
+            return outObject;
         }
         private JArray GetAllDevices()
         {
@@ -35,42 +37,38 @@ namespace IoT_Hub
                 List<DriverDevice> ddList = d.Devices;
                 Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Found {ddList.Count} devices in {d.Name}");
                 foreach (DriverDevice dd in ddList)
-                {
                     devicesArray.Add(GetDevice(d, dd));
-                }
             }
             return devicesArray;
         }
-        private JObject GetDevice(Driver driver, DriverDevice device)
+        public JObject GetDevice(Driver driver, DriverDevice device)
         {
             JObject outputObject = new JObject()
             {
                 { "label", device.GetConvertedDevice().Label },
                 { "name", device.GetConvertedDevice().Name },
                 { "manufacturer", device.GetConvertedDevice().Manufacturer },
-                { "deviceId", device.deviceId },
                 { "driverId", driver.driverId },
-                { "variables", new JArray(GetDeviceVariables(device)) }
+                { "deviceId", device.deviceId },
+                { "variables", new JArray(device.basicDevice.DeviceAttributes.Select(x => x.Label)) }
             };
             Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Found {device.basicDevice.DeviceAttributes.Count} device attributes for device in {driver.Name}");
             return outputObject;
         }
-        private JArray GetDeviceVariables(DriverDevice device)
+        private JArray GetDeviceAttributes(DriverDevice device)
         {
-            JArray outputArray = new JArray();
-            for (int i = 0; i < device.basicDevice.DeviceAttributes.Count; i++)
+            return new JArray(device.basicDevice.DeviceAttributes.Select(x => GetDeviceAttribute(x)));
+        }
+        public JObject GetDeviceAttribute(DeviceAttribute attribute)
+        {
+            dynamic devVar = attribute;
+            JObject jsonDevVar = new JObject
             {
-                dynamic devVar = device.basicDevice.DeviceAttributes[i];
-                JObject jsonDevVar = new JObject
-                {
-                    { "label", devVar.Label },
-                    { "identifier", i },
-                    { "type", device.basicDevice.DeviceAttributes[i].AttributeType.Name },
-                    { "value", devVar.Get().ToString() }
-                };
-                outputArray.Add(jsonDevVar);
-            }
-            return outputArray;
+                { "label", devVar.Label },
+                { "type", attribute.AttributeType.Name },
+                { "value", devVar.Get().ToString() }
+            };
+            return jsonDevVar;
         }
     }
 }
