@@ -10,26 +10,7 @@ namespace IoT_Hub
         static void Main(string[] args)
         {
             DriverLoader.LoadDrivers();
-            foreach (var s in DriverLoader.Drivers)
-            {
-                foreach (var q in s.Devices)
-                {
-                    foreach (dynamic r in q.basicDevice.DeviceVariables)
-                    {
-                        try
-                        {
-                            Console.WriteLine(r.Get());
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-                    }
-                }
-            }
-            Console.ReadLine();
-            OutputJsonProducer json = new OutputJsonProducer();
-            Console.WriteLine(json.GetOutputJsonString(DriverLoader.Drivers, "IoT Hub"));
+            HttpRequestListener.Run(DriverLoader.Drivers);
             Console.ReadLine();
         }
     }

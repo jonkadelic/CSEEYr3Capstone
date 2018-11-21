@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceVariable.cs" />
-    <Compile Include="DeviceVariableRangeChecked.cs" />
+    <Compile Include="DeviceAttribute.cs" />
+    <Compile Include="DeviceAttributeRangeChecked.cs" />
     <Compile Include="GenericSensor\IGenericSensor.cs" />
     <Compile Include="GenericSensor\SensorDataBundle.cs" />
     <Compile Include="GenericSensor\SensorDataItem.cs" />

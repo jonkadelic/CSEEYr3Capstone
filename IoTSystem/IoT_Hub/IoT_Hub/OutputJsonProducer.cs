@@ -1,61 +1,41 @@
-﻿using DeviceDriverPluginSystem;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IoT_Hub
 {
     public class OutputJsonProducer
     {
-        private List<Driver> drivers;
-        private string hubName;
+        private readonly List<Driver> drivers;
+        private readonly string hubName;
 
-        public string GetOutputJsonString(List<Driver> drivers, string hubName)
+        public OutputJsonProducer(List<Driver> drivers, string hubName)
         {
             this.drivers = drivers;
             this.hubName = hubName;
-            return GetOutputJsonJObject().ToString();
         }
 
-        private JObject GetOutputJsonJObject()
+        public string GetHubInformation()
         {
-            JObject outputObject = new JObject();
-            outputObject = AddHubProperties(outputObject);
-            return outputObject;
+            JObject outObject = new JObject();
+            outObject.Add("label", hubName);
+            outObject.Add("devices", GetAllDevices());
+            return outObject.ToString();
         }
-        private JObject AddHubProperties(JObject obj)
+        private JArray GetAllDevices()
         {
-            JObject outputObject = new JObject(obj);
-            outputObject.Add("label", new JValue(hubName));
-            outputObject.Add("devices", new JArray());
-            outputObject = AddHubDevices(outputObject);
-            return outputObject;
-        }
-        private JObject AddHubDevices(JObject obj)
-        {
-            JObject outputObject = new JObject(obj);
-            JArray deviceArray = outputObject["devices"] as JArray;
-            foreach (Driver driver in drivers)
+            JArray devicesArray = new JArray();
+            foreach (Driver d in drivers)
             {
-                foreach (DriverDevice device in driver.Devices)
+                foreach (DriverDevice dd in d.Devices)
                 {
-                    deviceArray.Add(DriverDeviceToJObject(driver, device));
+                    devicesArray.Add(GetDevice(d, dd));
                 }
             }
-            return outputObject;
+            return devicesArray;
         }
-        private JObject DriverDeviceToJObject(Driver driver, DriverDevice device)
+        private JObject GetDevice(Driver driver, DriverDevice device)
         {
-            JObject outputObject = new JObject();
-            outputObject = PopulateDeviceProperties(outputObject, driver, device);
-            return outputObject;
-        }
-        private JObject PopulateDeviceProperties(JObject obj, Driver driver, DriverDevice device)
-        {
-            JObject outputObject = new JObject(obj)
+            JObject outputObject = new JObject()
             {
                 { "label", device.GetConvertedDevice().Label },
                 { "name", device.GetConvertedDevice().Name },
@@ -69,15 +49,16 @@ namespace IoT_Hub
         private JArray GetDeviceVariables(DriverDevice device)
         {
             JArray outputArray = new JArray();
-            for (int i = 0; i < device.basicDevice.DeviceVariables.Count; i++)
+            for (int i = 0; i < device.basicDevice.DeviceAttributes.Count; i++)
             {
-                dynamic devVar = device.basicDevice.DeviceVariables[i];
-                JObject jsonDevVar = new JObject();
-                jsonDevVar.Add("label", devVar.Label);
-                jsonDevVar.Add("identifier", i);
-                jsonDevVar.Add("type", device.basicDevice.DeviceVariables[i].VariableType.Name);
-                jsonDevVar.Add("value", devVar.Get().ToString());
-
+                dynamic devVar = device.basicDevice.DeviceAttributes[i];
+                JObject jsonDevVar = new JObject
+                {
+                    { "label", devVar.Label },
+                    { "identifier", i },
+                    { "type", device.basicDevice.DeviceAttributes[i].AttributeType.Name },
+                    { "value", devVar.Get().ToString() }
+                };
                 outputArray.Add(jsonDevVar);
             }
             return outputArray;

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace DeviceDriverPluginSystem
 {
-    public class DeviceVariable
+    public class DeviceAttribute
     {
         /// <summary>
         ///     The type of value DeviceVariable represents; used for conversion to DeviceVariable<VariableType>.
         /// </summary>
-        public Type VariableType;
+        public Type AttributeType;
         /// <summary>
         ///     Variable name for printing, e.g. "Powered", "Brightness".
         /// </summary>
@@ -24,23 +24,23 @@ namespace DeviceDriverPluginSystem
         /// <param name="label">
         ///     Name to uniquely identify the variable.
         /// </param>
-        protected DeviceVariable(Type type, string label)
+        protected DeviceAttribute(Type type, string label)
         {
-            VariableType = type;
+            AttributeType = type;
             Label = label;
         }
     }
 
-    public class DeviceVariable<VariableType> : DeviceVariable where VariableType : IComparable
+    public class DeviceAttribute<AttributeType> : DeviceAttribute where AttributeType : IComparable
     {
         /// <summary>
         ///     Function to get the value of the variable DeviceVariable represents from the device.
         /// </summary>
-        public Func<VariableType> Get;
+        public Func<AttributeType> Get;
         /// <summary>
         ///     Function to set the value of the variable DeviceVariable represents.
         /// </summary>
-        public Action<VariableType> Set;
+        public Action<AttributeType> Set;
         /// <summary>
         ///     Flag to determine if the variable should be range checked.
         /// </summary>
@@ -58,7 +58,7 @@ namespace DeviceDriverPluginSystem
         /// <param name="label">
         ///     Label to identify the DeviceVariable. Should be unique.
         /// </param>
-        public DeviceVariable(Func<VariableType> get, Action<VariableType> set, string label) : base(typeof(VariableType), label)
+        public DeviceAttribute(Func<AttributeType> get, Action<AttributeType> set, string label) : base(typeof(AttributeType), label)
         {
             Get = get;
             Set = set;

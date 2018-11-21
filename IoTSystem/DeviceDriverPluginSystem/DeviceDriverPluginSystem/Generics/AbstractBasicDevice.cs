@@ -16,7 +16,7 @@ namespace DeviceDriverPluginSystem.Generics
         /// <summary>
         ///     List of all the DeviceVariable instances associated with the device.
         /// </summary>
-        public List<DeviceVariable> DeviceVariables { get; } = new List<DeviceVariable>();
+        public List<DeviceAttribute> DeviceAttributes { get; } = new List<DeviceAttribute>();
 
         /// <summary>
         ///     Retrieve a DeviceVariable object from DeviceValues by label.
@@ -27,6 +27,6 @@ namespace DeviceDriverPluginSystem.Generics
         /// <returns>
         ///     The DeviceVariable whose label is equal to the supplied value.
         /// </returns>
-        public DeviceVariable this[string label] => DeviceVariables.Find(x => x.Label == label);
+        public DeviceAttribute this[string label] => DeviceAttributes.Find(x => x.Label == label);
     }
 }

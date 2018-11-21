@@ -29,7 +29,7 @@ namespace DeviceDriver_TP_LINK_HS100
 
         private void PopulateDeviceVariables()
         {
-            DeviceVariables.Add(new DeviceVariable<bool>(IsPlugOn, SetPlugOn, "Powered"));
+            DeviceAttributes.Add(new DeviceAttribute<bool>(IsPlugOn, SetPlugOn, "Powered"));
         }
 
         private bool IsPlugOn()

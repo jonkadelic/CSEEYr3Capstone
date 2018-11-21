@@ -51,11 +51,11 @@ namespace DeviceDriver_Lifx_Color_A19
 
         public void AddDeviceVariable<VariableType>(string label, Func<VariableType> getter, Action<VariableType> setter) where VariableType : IComparable
         {
-            DeviceVariables.Add(new DeviceVariable<VariableType>(getter, setter, label));
+            DeviceAttributes.Add(new DeviceAttribute<VariableType>(getter, setter, label));
         }
         public void AddDeviceVariable<VariableType>(string label, Func<VariableType> getter, Action<VariableType> setter, Range<VariableType> valueRange) where VariableType : IComparable
         {
-            DeviceVariables.Add(new DeviceVariableRangeChecked<VariableType>(getter, setter, label, valueRange));
+            DeviceAttributes.Add(new DeviceAttributeRangeChecked<VariableType>(getter, setter, label, valueRange));
         }
 
         private bool IsBulbOn() => 

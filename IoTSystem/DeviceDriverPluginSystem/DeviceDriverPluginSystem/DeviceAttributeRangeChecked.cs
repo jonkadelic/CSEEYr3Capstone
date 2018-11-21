@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DeviceDriverPluginSystem
 {
-    public class DeviceVariableRangeChecked<VariableType> : DeviceVariable<VariableType> where VariableType : IComparable
+    public class DeviceAttributeRangeChecked<AttributeType> : DeviceAttribute<AttributeType> where AttributeType : IComparable
     {
-        private Range<VariableType> ValueRange;
+        private Range<AttributeType> attributeRange;
 
         /// <summary>
         ///     Creates a new instance of DeviceVariable using range checking.
@@ -20,15 +20,12 @@ namespace DeviceDriverPluginSystem
         /// <param name="label">
         ///     The label of the device variable. Should be unique.
         /// </param>
-        /// <param name="minValue">
-        ///     The maximum value the variable can take.
+        /// <param name="attributeRange">
+        ///     The range of values the attribute can take.
         /// </param>
-        /// <param name="maxValue">
-        ///     The minimum value the variable can take.
-        /// </param>
-        public DeviceVariableRangeChecked(Func<VariableType> get, Action<VariableType> set_NoRangeCheck, string label, Range<VariableType> valueRange) : base(get, set_NoRangeCheck, label)
+        public DeviceAttributeRangeChecked(Func<AttributeType> get, Action<AttributeType> set_NoRangeCheck, string label, Range<AttributeType> attributeRange) : base(get, set_NoRangeCheck, label)
         {
-            ValueRange = valueRange;
+            this.attributeRange = attributeRange;
             IsInputRangeChecked = true;
         }
 
@@ -42,9 +39,9 @@ namespace DeviceDriverPluginSystem
         /// <returns>
         ///     Bool to determine if value is within range.
         /// </returns>
-        public new bool Set(VariableType value)
+        public new bool Set(AttributeType value)
         {
-            if (ValueRange.Contains(value))
+            if (attributeRange.Contains(value))
             {
                 base.Set(value);
                 return true;

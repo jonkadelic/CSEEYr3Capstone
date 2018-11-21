@@ -49,6 +49,7 @@
     <Compile Include="Driver.cs" />
     <Compile Include="DriverDevice.cs" />
     <Compile Include="DriverLoader.cs" />
+    <Compile Include="HttpRequestListener.cs" />
     <Compile Include="OutputJsonProducer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
