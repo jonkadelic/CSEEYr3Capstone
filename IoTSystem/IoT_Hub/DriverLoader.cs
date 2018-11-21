@@ -13,11 +13,14 @@ namespace IoT_Hub
         public static void LoadDrivers()
         {
             string path = AppDomain.CurrentDomain.BaseDirectory + "plugins/";
+            Console.WriteLine($"{typeof(DriverLoader).Name}: Looking for driver DLLs in {path}");
             List<Assembly> assemblies = new List<Assembly>();
-            foreach (string dll in Directory.GetFiles(path, "*.DLL"))
+            foreach (string dll in Directory.GetFiles(path))
             {
-                assemblies.Add(Assembly.LoadFile(dll));
+                if (dll.ToLower().EndsWith(".dll"))
+                    assemblies.Add(Assembly.LoadFile(dll));
             }
+            Console.WriteLine($"{typeof(DriverLoader).Name}: Found {assemblies.Count} driver DLLs");
             foreach (Assembly assembly in assemblies)
             {
                 foreach (Type type in assembly.GetExportedTypes())

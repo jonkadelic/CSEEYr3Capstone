@@ -23,25 +23,34 @@ namespace IoT_Hub
         {
             drivers = driverList;
             listenerThread = new Thread(Listen);
+            Console.WriteLine(typeof(HttpRequestListener).Name + ": Created new listener thread");
             listenerThread.Start();
+            Console.WriteLine(typeof(HttpRequestListener).Name + ": Started listener thread");
         }
 
         private static void Listen()
         {
             HttpListener listener = new HttpListener();
+            Console.WriteLine(typeof(HttpRequestListener).Name + ": Created new listener");
             foreach (string s in GenerateListenerPrefixes())
                 listener.Prefixes.Add(s);
+            Console.WriteLine(typeof(HttpRequestListener).Name + ": Added listener prefixes");
             listener.Start();
+            Console.WriteLine(typeof(HttpRequestListener).Name + ": Started listener");
             while (!endThread)
             {
+                Console.WriteLine(typeof(HttpRequestListener).Name + ": Waiting for request...");
                 HttpListenerContext context = listener.GetContext();
+                Console.WriteLine(typeof(HttpRequestListener).Name + ": Got request!");
                 HttpListenerRequest request = context.Request;
                 HttpListenerResponse response = context.Response;
                 string responseString = GetResponseString(request);
+                Console.WriteLine(typeof(HttpRequestListener).Name + ": Built response string");
                 byte[] buffer = Encoding.UTF8.GetBytes(responseString);
                 response.ContentLength64 = buffer.Length;
                 System.IO.Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);
+                Console.WriteLine(typeof(HttpRequestListener).Name + ": Sent response string!");
                 output.Close();
             }
         }
@@ -49,7 +58,7 @@ namespace IoT_Hub
         private static List<string> GenerateListenerPrefixes()
         {
             List<string> outList = new List<string>();
-            string baseUrl = "http://+:8080/";
+            string baseUrl = "http://+:13420/";
             outList.Add(baseUrl + "all/");
             foreach (Driver d in drivers)
             {

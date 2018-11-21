@@ -26,6 +26,7 @@ namespace IoT_Hub
         {
             get
             {
+                Console.WriteLine($"{typeof(Driver).Name}: Request for devices of driver {Name}");
                 deviceCounter = 0;
                 return (driverType.GetProperty("Devices").GetValue(null) as List<AbstractBasicDevice>).Select(x => new DriverDevice(deviceType, x, deviceCounter++)).ToList();
             }
