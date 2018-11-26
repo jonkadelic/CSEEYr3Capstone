@@ -14,39 +14,34 @@ using IoTControllerApplication.ViewModels;
 namespace IoTControllerApplication.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ItemsPage : ContentPage
+    public partial class DevicesPage : ContentPage
     {
-        ItemsViewModel viewModel;
+        DevicesViewModel viewModel;
 
-        public ItemsPage()
+        public DevicesPage()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new ItemsViewModel();
+            BindingContext = viewModel = new DevicesViewModel();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Item;
-            if (item == null)
+            var device = args.SelectedItem as IoTDevice;
+            if (device == null)
                 return;
 
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
+            await Navigation.PushAsync(new DeviceDetailPage(new DeviceDetailViewModel(device)));
 
             // Manually deselect item.
-            ItemsListView.SelectedItem = null;
-        }
-
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
+            DevicesListView.SelectedItem = null;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (viewModel.Items.Count == 0)
+            if (viewModel.Devices.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
         }
     }

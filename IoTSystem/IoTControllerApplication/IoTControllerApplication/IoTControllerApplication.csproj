@@ -2,14 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Product>IoT Controller</Product>
+    <Authors>Joseph Brown</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="3.3.0.967583" />  
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\DeviceDetailPage.xaml.cs">
+      <DependentUpon>DeviceDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DevicesPage.xaml.cs">
+      <DependentUpon>DevicesPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

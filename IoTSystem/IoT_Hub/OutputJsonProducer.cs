@@ -50,7 +50,7 @@ namespace IoT_Hub
                 { "manufacturer", device.GetConvertedDevice().Manufacturer },
                 { "driverId", driver.driverId },
                 { "deviceId", device.deviceId },
-                { "variables", new JArray(device.basicDevice.DeviceAttributes.Select(x => x.Label)) }
+                { "attributes", new JArray(device.basicDevice.DeviceAttributes.Select(x => x.Label)) }
             };
             Utility.WriteTimeStamp($"Found {device.basicDevice.DeviceAttributes.Count} device attributes for device in {driver.Name}", typeof(HttpRequestListener));
             return outputObject;

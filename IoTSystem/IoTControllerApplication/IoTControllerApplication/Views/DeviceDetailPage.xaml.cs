@@ -9,28 +9,24 @@ using IoTControllerApplication.ViewModels;
 namespace IoTControllerApplication.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ItemDetailPage : ContentPage
+    public partial class DeviceDetailPage : ContentPage
     {
-        ItemDetailViewModel viewModel;
+        DeviceDetailViewModel viewModel;
 
-        public ItemDetailPage(ItemDetailViewModel viewModel)
+        public DeviceDetailPage(DeviceDetailViewModel viewModel)
         {
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
         }
 
-        public ItemDetailPage()
+        public DeviceDetailPage()
         {
             InitializeComponent();
 
-            var item = new Item
-            {
-                Text = "Item 1",
-                Description = "This is an item description."
-            };
+            var device = new IoTDevice("", "", "", 0, 0);
 
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new DeviceDetailViewModel(device);
             BindingContext = viewModel;
         }
     }
