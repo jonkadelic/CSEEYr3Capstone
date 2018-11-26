@@ -22,34 +22,34 @@ namespace IoT_Hub
         {
             drivers = driverList;
             listenerThread = new Thread(Listen);
-            Console.WriteLine(typeof(HttpRequestListener).Name + ": Created new listener thread");
+            Utility.WriteTimeStamp("Created new listener thread", typeof(HttpRequestListener));
             listenerThread.Start();
-            Console.WriteLine(typeof(HttpRequestListener).Name + ": Started listener thread");
+            Utility.WriteTimeStamp("Started listener thread", typeof(HttpRequestListener));
         }
 
         private static void Listen()
         {
             HttpListener listener = new HttpListener();
-            Console.WriteLine(typeof(HttpRequestListener).Name + ": Created new listener");
+            Utility.WriteTimeStamp("Created new listener", typeof(HttpRequestListener));
             foreach (string s in GenerateListenerPrefixes())
                 listener.Prefixes.Add(s);
-            Console.WriteLine(typeof(HttpRequestListener).Name + ": Added listener prefixes");
+            Utility.WriteTimeStamp("Added listener prefixes", typeof(HttpRequestListener));
             listener.Start();
-            Console.WriteLine(typeof(HttpRequestListener).Name + ": Started listener");
+            Utility.WriteTimeStamp("Started listener", typeof(HttpRequestListener));
             while (!endThread)
             {
-                Console.WriteLine(typeof(HttpRequestListener).Name + ": Waiting for request...");
+                Utility.WriteTimeStamp("Waiting for request...", typeof(HttpRequestListener));
                 HttpListenerContext context = listener.GetContext();
-                Console.WriteLine(typeof(HttpRequestListener).Name + ": Got request!");
+                Utility.WriteTimeStamp("Got request!", typeof(HttpRequestListener));
                 HttpListenerRequest request = context.Request;
                 HttpListenerResponse response = context.Response;
                 string responseString = GetResponseString(request);
-                Console.WriteLine(typeof(HttpRequestListener).Name + ": Built response string");
+                Utility.WriteTimeStamp("Built response string", typeof(HttpRequestListener));
                 byte[] buffer = Encoding.UTF8.GetBytes(responseString);
                 response.ContentLength64 = buffer.Length;
                 System.IO.Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);
-                Console.WriteLine(typeof(HttpRequestListener).Name + ": Sent response string!");
+                Utility.WriteTimeStamp("Sent response string!", typeof(HttpRequestListener));
                 output.Close();
             }
         }
@@ -87,20 +87,23 @@ namespace IoT_Hub
                 Driver d = null;
                 DriverDevice dd = null;
                 DeviceAttribute da = null;
-                if (int.TryParse(urlParts[0], out int driverId))
+                try
                 {
-                    d = drivers.Where(x => x.driverId == driverId).First();
-                    if (d == null) return "Invalid request.";
-                }
-                if (urlParts.Length >= 2 && int.TryParse(urlParts[1], out int deviceId))
+                    if (int.TryParse(urlParts[0], out int driverId))
+                    {
+                        d = drivers.Where(x => x.driverId == driverId).First();
+                    }
+                    if (urlParts.Length >= 2 && int.TryParse(urlParts[1], out int deviceId))
+                    {
+                        dd = d.Devices.Where(x => x.deviceId == deviceId).First();
+                    }
+                    if (urlParts.Length >= 3)
+                    {
+                        da = dd.basicDevice.DeviceAttributes.Where(x => x.Label == urlParts[2]).First();
+                    }
+                } catch (Exception)
                 {
-                    dd = d.Devices.Where(x => x.deviceId == deviceId).First();
-                    if (dd == null) return "Invalid request.";
-                }
-                if (urlParts.Length >= 3)
-                {
-                    da = dd.basicDevice.DeviceAttributes.Where(x => x.Label == urlParts[2]).First();
-                    if (da == null) return "Invalid request.";
+                    return "Invalid request.";
                 }
                 if (d != null && dd != null && da == null)
                 {

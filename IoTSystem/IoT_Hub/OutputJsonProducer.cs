@@ -19,7 +19,7 @@ namespace IoT_Hub
 
         public JObject GetHubInformation()
         {
-            Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Building hub information as JSON string");
+            Utility.WriteTimeStamp("Building hub information as JSON string", typeof(HttpRequestListener));
             JObject outObject = new JObject
             {
                 { "label", hubName },
@@ -29,13 +29,13 @@ namespace IoT_Hub
         }
         private JArray GetAllDevices()
         {
-            Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Building list of all devices in JSON");
-            Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Found {drivers.Count} drivers");
+            Utility.WriteTimeStamp("Building list of all devices in JSON", typeof(HttpRequestListener));
+            Utility.WriteTimeStamp($"Found {drivers.Count} drivers", typeof(HttpRequestListener));
             JArray devicesArray = new JArray();
             foreach (Driver d in drivers)
             {
                 List<DriverDevice> ddList = d.Devices;
-                Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Found {ddList.Count} devices in {d.Name}");
+                Utility.WriteTimeStamp($"Found {ddList.Count} devices in {d.Name}", typeof(HttpRequestListener));
                 foreach (DriverDevice dd in ddList)
                     devicesArray.Add(GetDevice(d, dd));
             }
@@ -52,7 +52,7 @@ namespace IoT_Hub
                 { "deviceId", device.deviceId },
                 { "variables", new JArray(device.basicDevice.DeviceAttributes.Select(x => x.Label)) }
             };
-            Console.WriteLine($"{typeof(OutputJsonProducer).Name}: Found {device.basicDevice.DeviceAttributes.Count} device attributes for device in {driver.Name}");
+            Utility.WriteTimeStamp($"Found {device.basicDevice.DeviceAttributes.Count} device attributes for device in {driver.Name}", typeof(HttpRequestListener));
             return outputObject;
         }
         private JArray GetDeviceAttributes(DriverDevice device)
