@@ -84,34 +84,55 @@ namespace IoT_Hub
             }
             else if (urlParts.Length >= 1)
             {
-                Driver d = null;
-                DriverDevice dd = null;
-                DeviceAttribute da = null;
+                Driver urlDriver = null;
+                DriverDevice urlDriverDevice = null;
+                DeviceAttribute urlDeviceAttribute = null;
+                string urlNewDeviceAttributeValue = null;
                 try
                 {
                     if (int.TryParse(urlParts[0], out int driverId))
                     {
-                        d = drivers.Where(x => x.driverId == driverId).First();
+                        urlDriver = drivers.Where(x => x.driverId == driverId).First();
                     }
                     if (urlParts.Length >= 2 && int.TryParse(urlParts[1], out int deviceId))
                     {
-                        dd = d.Devices.Where(x => x.deviceId == deviceId).First();
+                        urlDriverDevice = urlDriver.Devices.Where(x => x.deviceId == deviceId).First();
                     }
                     if (urlParts.Length >= 3)
                     {
-                        da = dd.basicDevice.DeviceAttributes.Where(x => x.Label == urlParts[2]).First();
+                        urlDeviceAttribute = urlDriverDevice.basicDevice.DeviceAttributes.Where(x => x.Label == urlParts[2]).First();
+                    }
+                    if (urlParts.Length >= 4 && urlParts[3].StartsWith("set?v="))
+                    {
+                        urlNewDeviceAttributeValue = urlParts[3].Substring(6);
                     }
                 } catch (Exception)
                 {
                     return "Invalid request.";
                 }
-                if (d != null && dd != null && da == null)
+                if (urlNewDeviceAttributeValue != null)
                 {
-                    return outputJsonProducer.GetDevice(d, dd).ToString();
+                    try
+                    {
+                        Type attType = urlDeviceAttribute.AttributeType;
+                        dynamic val = Convert.ChangeType(urlNewDeviceAttributeValue, attType);
+                        dynamic attribute = urlDeviceAttribute;
+                        attribute.Set(val);
+                        Thread.Sleep(1000);
+                        return outputJsonProducer.GetDeviceAttribute(urlDeviceAttribute).ToString();
+                    }
+                    catch
+                    {
+                        return "Unknown error.";
+                    }
                 }
-                else if (d != null && dd != null && da != null)
+                else if (urlDriver != null && urlDriverDevice != null && urlDeviceAttribute == null)
                 {
-                    return outputJsonProducer.GetDeviceAttribute(da).ToString();
+                    return outputJsonProducer.GetDevice(urlDriver, urlDriverDevice).ToString();
+                }
+                else if (urlDriver != null && urlDriverDevice != null && urlDeviceAttribute != null)
+                {
+                    return outputJsonProducer.GetDeviceAttribute(urlDeviceAttribute).ToString();
                 }
             }
             return "Invalid request.";

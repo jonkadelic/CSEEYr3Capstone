@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IoTControllerApplication.Views.DeviceDetailPage"
              Title="{Binding Title}">
-    <ListView x:Name="AttributesListView" ItemsSource="{Binding Device.Attributes}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <TextCell Text="{Binding Label}" Detail="{Binding Value}"/>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <TableView x:Name="AttributesTableView">
+        <TableRoot>
+            <TableSection>
+                
+            </TableSection>
+        </TableRoot>
+    </TableView>
 </ContentPage>

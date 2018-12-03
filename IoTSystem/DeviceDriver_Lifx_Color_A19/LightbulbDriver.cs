@@ -56,6 +56,7 @@ namespace DeviceDriver_Lifx_Color_A19
         /// </returns>
         internal static JArray GetAllDevicesJson()
         {
+            client.DefaultRequestHeaders.Clear();
             HttpRequestMessage request = new HttpRequestMessage
             {
                 RequestUri = new Uri(HttpUrl + "all"),
@@ -82,6 +83,7 @@ namespace DeviceDriver_Lifx_Color_A19
         /// </returns>
         internal static JToken GetJsonByID(string apiID)
         {
+            client.DefaultRequestHeaders.Clear();
             HttpRequestMessage request = new HttpRequestMessage
             {
                 RequestUri = new Uri(HttpUrl + "id:" + apiID),
@@ -115,7 +117,6 @@ namespace DeviceDriver_Lifx_Color_A19
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add(HttpHeader[0], HttpHeader[1]);
             HttpResponseMessage response = client.PutAsync(HttpUrl + "id:" + apiID + "/state", new StringContent(state + "=" + value, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
-            Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
             return true;
         }
     }

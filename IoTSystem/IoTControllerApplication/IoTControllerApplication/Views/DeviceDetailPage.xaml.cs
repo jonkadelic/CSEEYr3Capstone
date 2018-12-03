@@ -18,16 +18,11 @@ namespace IoTControllerApplication.Views
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
-        }
 
-        public DeviceDetailPage()
-        {
-            InitializeComponent();
-
-            var device = new IoTDevice("", "", "", 0, 0);
-
-            viewModel = new DeviceDetailViewModel(device);
-            BindingContext = viewModel;
+            foreach (Cell cell in viewModel.DeviceAttributeCells)
+            {
+                AttributesTableView.Root[0].Add(cell);
+            }
         }
     }
 }

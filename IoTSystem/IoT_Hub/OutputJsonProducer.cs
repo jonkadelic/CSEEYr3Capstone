@@ -65,9 +65,15 @@ namespace IoT_Hub
             JObject jsonDevVar = new JObject
             {
                 { "label", devVar.Label },
-                { "type", attribute.AttributeType.Name },
+                { "type", attribute.AttributeType.FullName },
                 { "value", devVar.Get().ToString() }
             };
+            try
+            {
+                jsonDevVar.Add("minValue", devVar.attributeRange.minValue.ToString());
+                jsonDevVar.Add("maxValue", devVar.attributeRange.maxValue.ToString());
+            }
+            catch (Exception) { }
             return jsonDevVar;
         }
     }

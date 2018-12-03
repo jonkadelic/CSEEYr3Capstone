@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -64,7 +65,14 @@ namespace IoTControllerApplication.Services
                             string s = await client.DownloadStringTaskAsync($"{HttpUrl}/{dev.DriverId}/{dev.DeviceId}/{attributeLabel}/");
                             att = JToken.Parse(s);
                         }
-                        dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), att["value"].Value<string>()));
+                        string minValue = "", maxValue = "";
+                        try
+                        {
+                            minValue = att["minValue"].Value<string>();
+                            maxValue = att["maxValue"].Value<string>();
+                        }
+                        catch (Exception) { }
+                        dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), att["value"].Value<string>(), minValue, maxValue));
                     }
                     devices.Add(dev);
                 }

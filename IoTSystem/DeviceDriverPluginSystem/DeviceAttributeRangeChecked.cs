@@ -6,7 +6,7 @@ namespace DeviceDriverPluginSystem
 {
     public class DeviceAttributeRangeChecked<AttributeType> : DeviceAttribute<AttributeType> where AttributeType : IComparable
     {
-        private Range<AttributeType> attributeRange;
+        public Range<AttributeType> attributeRange;
 
         /// <summary>
         ///     Creates a new instance of DeviceVariable using range checking.
