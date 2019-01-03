@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 
 namespace IoTControllerApplication.Models
@@ -9,39 +11,63 @@ namespace IoTControllerApplication.Models
     {
         public string Label { get; private set; }
         public Type AttributeType { get; private set; }
-        public dynamic Value { get; set; }
         public dynamic MinValue { get; set; } = null;
         public dynamic MaxValue { get; set; } = null;
+        public IoTDevice Device { get; }
 
-        public DeviceAttribute(string label, Type attributeType, string value, string minValue = "", string maxValue = "")
+        string HttpUrl = "http://51.38.71.207";
+
+        private dynamic _value;
+
+
+        public void UpdateValue()
         {
-            Label = label;
-            AttributeType = attributeType;
+            JToken att;
+            using (WebClient client = new WebClient())
+            {
+                string s = client.DownloadString($"{HttpUrl}/{Device.DriverId}/{Device.DeviceId}/{Label}/");
+                att = JToken.Parse(s);
+            }
+            string value = att["value"].Value<string>();
             try
             {
-                Value = Convert.ChangeType(value, AttributeType);
+                _value = Convert.ChangeType(value, AttributeType);
             }
             catch (InvalidCastException)
             {
-                Value = "ERROR: Attribute is of an unsupported type.";
+                _value = "ERROR: Attribute is of an unsupported type.";
             }
             catch (Exception)
             {
-                Value = "ERROR: Attribute value could not be parsed.";
+                _value = "ERROR: Attribute value could not be parsed.";
             }
+        }
+
+        public dynamic Value {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string s = client.DownloadString($"{HttpUrl}/{Device.DriverId}/{Device.DeviceId}/{Label}/set?v={value.ToString()}");
+                }
+            }
+        }
+
+        public DeviceAttribute(string label, Type attributeType, IoTDevice device, string minValue = "", string maxValue = "")
+        {
+            Label = label;
+            AttributeType = attributeType;
+            Device = device;
             if (minValue != "" && maxValue != "")
             {
-                try
-                {
-                    MinValue = Convert.ChangeType(minValue, AttributeType);
-                    MaxValue = Convert.ChangeType(maxValue, AttributeType);
-                }
-                catch
-                {
-                    MinValue = null;
-                    MaxValue = null;
-                }
+                MinValue = minValue;
+                MaxValue = maxValue;
             }
+            UpdateValue();
         }
     }
 }

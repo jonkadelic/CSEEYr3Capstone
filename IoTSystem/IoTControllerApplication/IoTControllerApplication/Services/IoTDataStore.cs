@@ -15,7 +15,7 @@ namespace IoTControllerApplication.Services
     {
         List<IoTDevice> devices;
 
-        string HttpUrl = "http://51.38.71.207";
+        string HttpUrl = "http://192.168.2.85";
 
         public IoTDataStore()
         {
@@ -72,7 +72,7 @@ namespace IoTControllerApplication.Services
                             maxValue = att["maxValue"].Value<string>();
                         }
                         catch (Exception) { }
-                        dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), att["value"].Value<string>(), minValue, maxValue));
+                        dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), dev, minValue, maxValue));
                     }
                     devices.Add(dev);
                 }
@@ -99,7 +99,7 @@ namespace IoTControllerApplication.Services
                     string s = client.DownloadString($"{HttpUrl}/{dev.DriverId}/{dev.DeviceId}/{attributeLabel}/");
                     att = JToken.Parse(s);
                 }
-                dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), att["value"].Value<string>()));
+                dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), dev));
             }
             devices.Remove(device);
             devices.Add(dev);

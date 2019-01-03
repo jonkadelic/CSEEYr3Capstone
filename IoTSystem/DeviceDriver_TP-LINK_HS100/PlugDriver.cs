@@ -11,7 +11,7 @@ namespace DeviceDriver_TP_LINK_HS100
 {
     public class PlugDriver : AbstractBasicDriver
     {
-        private static readonly string AccessToken = "762d7865-B1kZgX9rFpt7W9dZkahXd3P";
+        private static readonly string AccessToken = "762d7865-B52EPmdI2vYOwy6YodTmwxA";
 
         private static readonly string[] HttpHeader = new[] { "Content-Type", "application/json" };
 
@@ -94,7 +94,6 @@ namespace DeviceDriver_TP_LINK_HS100
             {
                 response.EnsureSuccessStatusCode();
                 string json = response.Content.ReadAsStringAsync().Result;
-                Console.WriteLine(JToken.Parse(json));
             }
         }
     }
