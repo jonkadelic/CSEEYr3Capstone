@@ -21,6 +21,7 @@ namespace IoTControllerApplication.ViewModels
                 List<Cell> cells = new List<Cell>();
                 foreach (DeviceAttribute d in Device.Attributes)
                 {
+                    d.UpdateValue();
                     if (d.AttributeType == typeof(bool))
                     {
                         var cell = new SwitchCell();

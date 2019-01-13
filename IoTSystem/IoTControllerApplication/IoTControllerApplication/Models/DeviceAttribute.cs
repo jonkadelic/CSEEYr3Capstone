@@ -29,6 +29,13 @@ namespace IoTControllerApplication.Models
             string value = att["value"].Value<string>();
             try
             {
+                MinValue = att["minValue"].Value<string>();
+                MaxValue = att["maxValue"].Value<string>();
+            }
+            catch (Exception) { }
+            AttributeType = Type.GetType(att["type"].Value<string>());
+            try
+            {
                 _value = Convert.ChangeType(value, AttributeType);
             }
             catch (InvalidCastException)
@@ -55,17 +62,10 @@ namespace IoTControllerApplication.Models
             }
         }
 
-        public DeviceAttribute(string label, Type attributeType, IoTDevice device, string minValue = "", string maxValue = "")
+        public DeviceAttribute(string label, IoTDevice device)
         {
             Label = label;
-            AttributeType = attributeType;
             Device = device;
-            if (minValue != "" && maxValue != "")
-            {
-                MinValue = minValue;
-                MaxValue = maxValue;
-            }
-            UpdateValue();
         }
     }
 }

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientBroadcastReceiver.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="DriverDevice.cs" />
     <Compile Include="DriverLoader.cs" />

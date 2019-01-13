@@ -15,11 +15,12 @@ namespace IoTControllerApplication.Services
     {
         List<IoTDevice> devices;
 
-        public static string HttpUrl = "http://192.168.2.85";
+        public static string HttpUrl;
 
         public IoTDataStore()
         {
             devices = new List<IoTDevice>();
+            HttpUrl = "http://" + ServerLocator.GetServerLocation().ToString();
         }
 
         public async Task<bool> AddItemAsync(IoTDevice device)
@@ -59,20 +60,7 @@ namespace IoTControllerApplication.Services
                     foreach (JValue v in t["attributes"])
                     {
                         string attributeLabel = v.Value<string>();
-                        JToken att;
-                        using (WebClient client = new WebClient())
-                        {
-                            string s = await client.DownloadStringTaskAsync($"{HttpUrl}/{dev.DriverId}/{dev.DeviceId}/{attributeLabel}/");
-                            att = JToken.Parse(s);
-                        }
-                        string minValue = "", maxValue = "";
-                        try
-                        {
-                            minValue = att["minValue"].Value<string>();
-                            maxValue = att["maxValue"].Value<string>();
-                        }
-                        catch (Exception) { }
-                        dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), dev, minValue, maxValue));
+                        dev.Attributes.Add(new DeviceAttribute(attributeLabel, dev));
                     }
                     devices.Add(dev);
                 }
@@ -99,7 +87,7 @@ namespace IoTControllerApplication.Services
                     string s = client.DownloadString($"{HttpUrl}/{dev.DriverId}/{dev.DeviceId}/{attributeLabel}/");
                     att = JToken.Parse(s);
                 }
-                dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), Type.GetType(att["type"].Value<string>()), dev));
+                dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), dev));
             }
             devices.Remove(device);
             devices.Add(dev);
