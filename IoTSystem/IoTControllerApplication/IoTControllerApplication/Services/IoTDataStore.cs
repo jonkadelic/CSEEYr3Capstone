@@ -15,7 +15,7 @@ namespace IoTControllerApplication.Services
     {
         List<IoTDevice> devices;
 
-        string HttpUrl = "http://192.168.2.85";
+        public static string HttpUrl = "http://192.168.2.85";
 
         public IoTDataStore()
         {
@@ -55,7 +55,7 @@ namespace IoTControllerApplication.Services
                 }
                 foreach (JToken t in jt["devices"])
                 {
-                    IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<int>(), t["deviceId"].Value<int>());
+                    IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<string>(), t["deviceId"].Value<string>());
                     foreach (JValue v in t["attributes"])
                     {
                         string attributeLabel = v.Value<string>();
@@ -88,8 +88,8 @@ namespace IoTControllerApplication.Services
                 string s = client.DownloadString(HttpUrl + "/all/");
                 jt = JToken.Parse(s);
             }
-            JToken t = jt["devices"].Where(x => x["driverId"].Value<int>() == device.DriverId && x["deviceId"].Value<int>() == device.DeviceId).FirstOrDefault();
-            IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<int>(), t["deviceId"].Value<int>());
+            JToken t = jt["devices"].Where(x => x["driverId"].Value<string>() == device.DriverId && x["deviceId"].Value<string>() == device.DeviceId).FirstOrDefault();
+            IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<string>(), t["deviceId"].Value<string>());
             foreach (JValue v in t["attributes"])
             {
                 string attributeLabel = v.Value<string>();

@@ -10,7 +10,7 @@ namespace IoT_Hub
         static void Main(string[] args)
         {
             DriverLoader.LoadDrivers();
-            HttpRequestListener.Run(DriverLoader.Drivers);
+            HttpRequestListener.Run();
             Console.ReadLine();
         }
     }

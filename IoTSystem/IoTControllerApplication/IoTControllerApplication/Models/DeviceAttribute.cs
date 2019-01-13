@@ -15,8 +15,6 @@ namespace IoTControllerApplication.Models
         public dynamic MaxValue { get; set; } = null;
         public IoTDevice Device { get; }
 
-        string HttpUrl = "http://51.38.71.207";
-
         private dynamic _value;
 
 
@@ -25,7 +23,7 @@ namespace IoTControllerApplication.Models
             JToken att;
             using (WebClient client = new WebClient())
             {
-                string s = client.DownloadString($"{HttpUrl}/{Device.DriverId}/{Device.DeviceId}/{Label}/");
+                string s = client.DownloadString($"{Services.IoTDataStore.HttpUrl}/{Device.DriverId}/{Device.DeviceId}/{Label}/");
                 att = JToken.Parse(s);
             }
             string value = att["value"].Value<string>();
@@ -52,7 +50,7 @@ namespace IoTControllerApplication.Models
             {
                 using (WebClient client = new WebClient())
                 {
-                    string s = client.DownloadString($"{HttpUrl}/{Device.DriverId}/{Device.DeviceId}/{Label}/set?v={value.ToString()}");
+                    string s = client.DownloadString($"{Services.IoTDataStore.HttpUrl}/{Device.DriverId}/{Device.DeviceId}/{Label}/set?v={value.ToString()}");
                 }
             }
         }

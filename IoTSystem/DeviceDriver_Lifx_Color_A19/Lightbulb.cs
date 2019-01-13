@@ -22,6 +22,8 @@ namespace DeviceDriver_Lifx_Color_A19
 
         public new string Manufacturer => "Lifx";
 
+        public new string Id => ApiID;
+
         /// <summary>
         ///     Creates a new Device object with unique ID provided by the JSON data from Lifx.
         /// </summary>
@@ -72,6 +74,6 @@ namespace DeviceDriver_Lifx_Color_A19
         private void SetBulbBrightness(double newBrightness) =>
             LightbulbDriver.SetDeviceProperty(ApiID, "brightness", newBrightness.ToString());
         private void SetBulbWarmth(int newWarmth) =>
-            LightbulbDriver.SetDeviceProperty(ApiID, "color", "warmth:" + newWarmth.ToString());
+            LightbulbDriver.SetDeviceProperty(ApiID, "color", "kelvin:" + newWarmth.ToString());
     }
 }

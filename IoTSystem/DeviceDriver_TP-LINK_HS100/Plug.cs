@@ -21,6 +21,8 @@ namespace DeviceDriver_TP_LINK_HS100
 
         public new string Manufacturer => "TP-LINK";
 
+        public new string Id => ApiID;
+
         internal Plug(string ApiID)
         {
             this.ApiID = ApiID;

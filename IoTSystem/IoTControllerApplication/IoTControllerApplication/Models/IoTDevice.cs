@@ -9,12 +9,12 @@ namespace IoTControllerApplication.Models
         public string Label { get; private set; }
         public string Name { get; private set; }
         public string Manufacturer { get; private set; }
-        public int DriverId { get; private set; }
-        public int DeviceId { get; private set; }
+        public string DriverId { get; private set; }
+        public string DeviceId { get; private set; }
         public List<DeviceAttribute> Attributes { get; private set; }
         public string Id { get; private set; }
 
-        public IoTDevice(string label, string name, string manufacturer, int driverId, int deviceId)
+        public IoTDevice(string label, string name, string manufacturer, string driverId, string deviceId)
         {
             Label = label;
             Name = name;

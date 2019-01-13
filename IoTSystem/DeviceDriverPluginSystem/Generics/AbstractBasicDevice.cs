@@ -13,6 +13,8 @@ namespace DeviceDriverPluginSystem.Generics
 
         public string Manufacturer { get; }
 
+        public string Id { get; }
+
         /// <summary>
         ///     List of all the DeviceVariable instances associated with the device.
         /// </summary>

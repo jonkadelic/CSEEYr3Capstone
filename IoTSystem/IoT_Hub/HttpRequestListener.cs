@@ -10,64 +10,85 @@ namespace IoT_Hub
 {
     public class HttpRequestListener
     {
-        private static List<Driver> drivers;
         private static Thread listenerThread;
         private static bool endThread = false;
+        private static HttpListener listener;
+
+        static HttpRequestListener()
+        {
+            listener = new HttpListener();
+        }
 
         public static void Stop()
         {
             endThread = true;
         }
-        public static void Run(List<Driver> driverList)
+        public static void Run()
         {
-            drivers = driverList;
             listenerThread = new Thread(Listen);
             Utility.WriteTimeStamp("Created new listener thread", typeof(HttpRequestListener));
             listenerThread.Start();
             Utility.WriteTimeStamp("Started listener thread", typeof(HttpRequestListener));
         }
 
+        public static void UpdateListenerPrefixes()
+        {
+            listener.Prefixes.Clear();
+            foreach (string s in GenerateListenerPrefixList())
+                listener.Prefixes.Add(s);
+        }
+
         private static void Listen()
         {
-            HttpListener listener = new HttpListener();
             Utility.WriteTimeStamp("Created new listener", typeof(HttpRequestListener));
-            foreach (string s in GenerateListenerPrefixes())
-                listener.Prefixes.Add(s);
+            UpdateListenerPrefixes();
             Utility.WriteTimeStamp("Added listener prefixes", typeof(HttpRequestListener));
             listener.Start();
             Utility.WriteTimeStamp("Started listener", typeof(HttpRequestListener));
             while (!endThread)
             {
-                Utility.WriteTimeStamp("Waiting for request...", typeof(HttpRequestListener));
-                HttpListenerContext context = listener.GetContext();
-                Utility.WriteTimeStamp("Got request!", typeof(HttpRequestListener));
-                HttpListenerRequest request = context.Request;
-                HttpListenerResponse response = context.Response;
-                string responseString = GetResponseString(request);
-                Utility.WriteTimeStamp("Built response string", typeof(HttpRequestListener));
-                byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-                response.ContentLength64 = buffer.Length;
-                System.IO.Stream output = response.OutputStream;
-                output.Write(buffer, 0, buffer.Length);
-                Utility.WriteTimeStamp("Sent response string!", typeof(HttpRequestListener));
-                output.Close();
+                HttpListenerContext context = WaitForRequestContext(listener);
+                SendRequestResponse(context);
             }
         }
 
-        private static List<string> GenerateListenerPrefixes()
+        private static HttpListenerContext WaitForRequestContext(HttpListener listener)
+        {
+            Utility.WriteTimeStamp("Waiting for request...", typeof(HttpRequestListener));
+            HttpListenerContext context = listener.GetContext();
+            Utility.WriteTimeStamp("Got request!", typeof(HttpRequestListener));
+            return context;
+        }
+
+        private static void SendRequestResponse(HttpListenerContext context)
+        {
+            if (context == null) return;
+            HttpListenerRequest request = context.Request;
+            HttpListenerResponse response = context.Response;
+            string responseString = GetResponseString(request);
+            Utility.WriteTimeStamp("Built response string", typeof(HttpRequestListener));
+            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+            response.ContentLength64 = buffer.Length;
+            System.IO.Stream output = response.OutputStream;
+            output.Write(buffer, 0, buffer.Length);
+            Utility.WriteTimeStamp("Sent response string!", typeof(HttpRequestListener));
+            output.Close();
+        }
+
+        private static List<string> GenerateListenerPrefixList()
         {
             List<string> outList = new List<string>();
             string baseUrl = "http://+:80/";
             outList.Add(baseUrl + "all/");
-            foreach (Driver d in drivers)
+            foreach (Driver d in DriverLoader.Drivers)
             {
-                outList.Add(baseUrl + d.driverId.ToString() + "/");
+                outList.Add(baseUrl + d.Id + "/");
                 foreach (DriverDevice dd in d.Devices)
                 {
-                    outList.Add(baseUrl + d.driverId.ToString() + "/" + dd.deviceId.ToString() + "/");
-                    foreach (DeviceAttribute da in dd.basicDevice.DeviceAttributes)
+                     outList.Add(baseUrl + d.Id + "/" + dd.GetDynamicDevice().Id + "/");
+                    foreach (DeviceAttribute da in dd.DeviceBase.DeviceAttributes)
                     {
-                        outList.Add(baseUrl + d.driverId.ToString() + "/" + dd.deviceId.ToString() + "/" + da.Label + "/");
+                        outList.Add(baseUrl + d.Id + "/" + dd.GetDynamicDevice().Id + "/" + da.Label + "/");
                     }
                 }
             }
@@ -76,7 +97,7 @@ namespace IoT_Hub
 
         private static string GetResponseString(HttpListenerRequest request)
         {
-            OutputJsonProducer outputJsonProducer = new OutputJsonProducer(drivers, "IoT Hub");
+            OutputJsonProducer outputJsonProducer = new OutputJsonProducer(DriverLoader.Drivers, "IoT Hub");
             string[] urlParts = SplitRawUrlIntoParts(request.RawUrl);
             if (urlParts.Length == 1 && urlParts[0] == "all")
             {
@@ -90,17 +111,17 @@ namespace IoT_Hub
                 string urlNewDeviceAttributeValue = null;
                 try
                 {
-                    if (int.TryParse(urlParts[0], out int driverId))
+                    if (urlParts.Length >= 1)
                     {
-                        urlDriver = drivers.Where(x => x.driverId == driverId).First();
+                        urlDriver = DriverLoader.Drivers.Where(x => x.Id == urlParts[0]).First();
                     }
-                    if (urlParts.Length >= 2 && int.TryParse(urlParts[1], out int deviceId))
+                    if (urlParts.Length >= 2)
                     {
-                        urlDriverDevice = urlDriver.Devices.Where(x => x.deviceId == deviceId).First();
+                        urlDriverDevice = urlDriver.Devices.Where(x => x.GetDynamicDevice().Id == urlParts[1]).First();
                     }
                     if (urlParts.Length >= 3)
                     {
-                        urlDeviceAttribute = urlDriverDevice.basicDevice.DeviceAttributes.Where(x => x.Label == urlParts[2]).First();
+                        urlDeviceAttribute = urlDriverDevice.DeviceBase.DeviceAttributes.Where(x => x.Label == urlParts[2]).First();
                     }
                     if (urlParts.Length >= 4 && urlParts[3].StartsWith("set?v="))
                     {
@@ -112,6 +133,7 @@ namespace IoT_Hub
                 }
                 if (urlNewDeviceAttributeValue != null)
                 {
+                    Utility.WriteTimeStamp($"Setting value of {urlDriverDevice.GetDynamicDevice().Name}'s attribute {urlDeviceAttribute.Label} to {urlNewDeviceAttributeValue}", typeof(HttpRequestListener));
                     try
                     {
                         Type attType = urlDeviceAttribute.AttributeType;
@@ -128,10 +150,12 @@ namespace IoT_Hub
                 }
                 else if (urlDriver != null && urlDriverDevice != null && urlDeviceAttribute == null)
                 {
+                    Utility.WriteTimeStamp($"Fetching properties of device {urlDriverDevice.GetDynamicDevice().Name}");
                     return outputJsonProducer.GetDevice(urlDriver, urlDriverDevice).ToString();
                 }
                 else if (urlDriver != null && urlDriverDevice != null && urlDeviceAttribute != null)
                 {
+                    Utility.WriteTimeStamp($"Fetching properties of device {urlDriverDevice.GetDynamicDevice().Name}'s attribute {urlDeviceAttribute.Label}");
                     return outputJsonProducer.GetDeviceAttribute(urlDeviceAttribute).ToString();
                 }
             }
