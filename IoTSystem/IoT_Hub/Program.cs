@@ -12,6 +12,11 @@ namespace IoT_Hub
             DriverLoader.LoadDrivers();
             ClientBroadcastReceiver.Run();
             HttpRequestListener.Run();
+            //if (DatabaseHandler.IsDatabaseUp)
+            //    Utility.WriteTimeStamp("Successfully connected to database.", typeof(DatabaseHandler));
+            //else
+            //    Utility.WriteTimeStamp("Could not connect to database!", typeof(DatabaseHandler));
+
             Console.ReadLine();
         }
     }

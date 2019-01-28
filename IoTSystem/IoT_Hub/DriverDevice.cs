@@ -11,7 +11,7 @@ namespace IoT_Hub
         /// <summary>
         ///     Unique ID for an instance of DriverDevice.
         /// </summary>
-        public string Id => DeviceBase.Id;
+        public string Id => GetDynamicDevice().Id;
         /// <summary>
         ///     The AbstractBasicDevice this DriverDevice wraps.
         /// </summary>

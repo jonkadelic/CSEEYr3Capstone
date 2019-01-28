@@ -134,18 +134,21 @@ namespace IoT_Hub
                 if (urlNewDeviceAttributeValue != null)
                 {
                     Utility.WriteTimeStamp($"Setting value of {urlDriverDevice.GetDynamicDevice().Name}'s attribute {urlDeviceAttribute.Label} to {urlNewDeviceAttributeValue}", typeof(HttpRequestListener));
+                    
+                    Type attType = urlDeviceAttribute.AttributeType;
+                    dynamic val = Convert.ChangeType(urlNewDeviceAttributeValue, attType);
+                    dynamic attribute = urlDeviceAttribute;
+
+                    DatabaseHandler.BuildActionSnapshotAndInsert(attribute, urlDriverDevice, attribute.Get(), val);
+
                     try
                     {
-                        Type attType = urlDeviceAttribute.AttributeType;
-                        dynamic val = Convert.ChangeType(urlNewDeviceAttributeValue, attType);
-                        dynamic attribute = urlDeviceAttribute;
                         attribute.Set(val);
-                        Thread.Sleep(1000);
-                        return outputJsonProducer.GetDeviceAttribute(urlDeviceAttribute).ToString();
+                        return "Success";
                     }
                     catch
                     {
-                        return "Unknown error.";
+                        return "Error";
                     }
                 }
                 else if (urlDriver != null && urlDriverDevice != null && urlDeviceAttribute == null)
