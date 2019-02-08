@@ -23,7 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTControllerApplication.An
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTControllerApplication.iOS", "IoTControllerApplication\IoTControllerApplication.iOS\IoTControllerApplication.iOS.csproj", "{A938798C-C925-4A95-BE1A-EFF7F8368E43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTControllerApplication", "IoTControllerApplication\IoTControllerApplication\IoTControllerApplication.csproj", "{48A3721D-648C-4344-94DA-CDE5C3B1D34C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoTControllerApplication", "IoTControllerApplication\IoTControllerApplication\IoTControllerApplication.csproj", "{48A3721D-648C-4344-94DA-CDE5C3B1D34C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriver_Environmental", "DeviceDriver_Environmental\DeviceDriver_Environmental.csproj", "{441D7468-B59B-4A01-91D5-ED207C423344}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,18 @@ Global
 		{48A3721D-648C-4344-94DA-CDE5C3B1D34C}.Release|iPhone.Build.0 = Release|Any CPU
 		{48A3721D-648C-4344-94DA-CDE5C3B1D34C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{48A3721D-648C-4344-94DA-CDE5C3B1D34C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|iPhone.Build.0 = Release|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

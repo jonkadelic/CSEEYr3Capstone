@@ -100,7 +100,11 @@ namespace IoT_Hub
                 foreach (Type type in assembly.GetExportedTypes())
                 {
                     if (type.BaseType == typeof(AbstractBasicDriver))
-                        drivers.Add(new Driver(type, type.GetProperty("DeviceType").GetValue(null) as Type));
+                    {
+                        Driver d = new Driver(type, type.GetProperty("DeviceType").GetValue(null) as Type);
+                        type.GetMethod("Initialize")?.Invoke(null, null);
+                        drivers.Add(d);
+                    }
                 }
             }
             return drivers;
