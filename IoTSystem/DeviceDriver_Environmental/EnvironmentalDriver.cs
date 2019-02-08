@@ -114,7 +114,7 @@ namespace DeviceDriver_Environmental
             }
             catch (Exception)
             {
-                internalDevice.DeviceAttributes.Remove(internalDevice.DeviceAttributes.Where(x => x.Label == "WindDirection").Single());
+                windDirection = -1;
             }
             try
             {
@@ -122,7 +122,7 @@ namespace DeviceDriver_Environmental
             }
             catch (Exception)
             {
-                internalDevice.DeviceAttributes.Remove(internalDevice.DeviceAttributes.Where(x => x.Label == "Clouds").Single());
+                clouds = -1;
             }
             try
             {
@@ -130,10 +130,17 @@ namespace DeviceDriver_Environmental
             }
             catch (Exception)
             {
-                internalDevice.DeviceAttributes.Remove(internalDevice.DeviceAttributes.Where(x => x.Label == "Visibility").Single());
+                visibility = -1;
             }
-            string prec = root["precipitation"].Attributes["mode"].Value;
-            precipitation = (prec == "no" ? PrecipitationType.NO : prec == "rain" ? PrecipitationType.RAIN : PrecipitationType.SNOW);
+            try
+            {
+                string prec = root["precipitation"].Attributes["mode"].Value;
+                precipitation = (prec == "no" ? PrecipitationType.NO : prec == "rain" ? PrecipitationType.RAIN : PrecipitationType.SNOW);
+            }
+            catch (Exception)
+            {
+                precipitation = PrecipitationType.NO;
+            }
         }
     }
 }
