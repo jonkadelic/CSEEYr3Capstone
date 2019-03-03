@@ -23,13 +23,6 @@ namespace DeviceDriver_Environmental
 
         private static readonly HttpClient client = new HttpClient();
 
-        public enum PrecipitationType
-        {
-            NO,
-            RAIN,
-            SNOW
-        }
-
         public static double temperature;
         public static int humidity;
         public static double pressure;
@@ -37,7 +30,7 @@ namespace DeviceDriver_Environmental
         public static double windDirection;
         public static int clouds;
         public static int visibility;
-        public static PrecipitationType precipitation;
+        public static int precipitation;
 
         public static new void Initialize()
         {
@@ -135,11 +128,11 @@ namespace DeviceDriver_Environmental
             try
             {
                 string prec = root["precipitation"].Attributes["mode"].Value;
-                precipitation = (prec == "no" ? PrecipitationType.NO : prec == "rain" ? PrecipitationType.RAIN : PrecipitationType.SNOW);
+                precipitation = (prec == "no" ? 0 : prec == "rain" ? 1 : 2);
             }
             catch (Exception)
             {
-                precipitation = PrecipitationType.NO;
+                precipitation = -1;
             }
         }
     }

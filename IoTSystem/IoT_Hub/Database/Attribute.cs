@@ -10,10 +10,10 @@ namespace IoT_Hub.Database
     public class Attribute
     {
         [BsonElement("name")]
-        public string Name { get; }
+        public string Name { get; set; }
 
         [BsonElement("value")]
-        public dynamic Value { get; }
+        public dynamic Value { get; set; }
 
         public Attribute(string name, dynamic value)
         {

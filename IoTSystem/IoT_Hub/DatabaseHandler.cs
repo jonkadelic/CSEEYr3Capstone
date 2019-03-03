@@ -13,17 +13,23 @@ namespace IoT_Hub
     public static class DatabaseHandler
     {
         private static MongoClient client;
-        private static IMongoDatabase database;
-        private static IMongoCollection<Database.ActionSnapshotPair> collection;
+        private static IMongoDatabase db_data;
+        private static IMongoCollection<Database.ActionSnapshotPair> db_data_collection;
+        private static IMongoDatabase db_routines;
+        private static IMongoCollection<Database.Routine> db_routines_collection;
         
-        static DatabaseHandler()
+        public static void Startup(string s)
         {
-            client = new MongoClient("mongodb+srv://admin:admin@joeiotcluster-57die.gcp.mongodb.net/test?retryWrites=true");
+            client = new MongoClient(s);
 
-            string macAddress = NetworkInterface.GetAllNetworkInterfaces()[0].GetPhysicalAddress().ToString();
-            database = client.GetDatabase("data");
-            collection = database.GetCollection<Database.ActionSnapshotPair>(macAddress);
-            Utility.WriteTimeStamp("Initialised database handler", typeof(DatabaseHandler));
+            List<string> macAddresses = NetworkInterface.GetAllNetworkInterfaces().Select(x => x.GetPhysicalAddress().ToString()).ToList();
+            string macAddress = macAddresses.Where(x => x != "").First();
+
+            db_data = client.GetDatabase("data");
+            db_data_collection = db_data.GetCollection<Database.ActionSnapshotPair>(macAddress);
+            db_routines = client.GetDatabase("routines");
+            db_routines_collection = db_routines.GetCollection<Database.Routine>(macAddress);
+            Utility.WriteTimeStamp($"Initialised database handler with URL {s}", typeof(DatabaseHandler));
         }
 
         public static bool IsDatabaseUp => client.Cluster.Description.State == MongoDB.Driver.Core.Clusters.ClusterState.Connected;
@@ -46,13 +52,19 @@ namespace IoT_Hub
             Database.ActionSnapshotPair pair = new Database.ActionSnapshotPair(action, snapshot);
             Utility.WriteTimeStamp("Snapshot built!", typeof(DatabaseHandler));
             Utility.WriteTimeStamp("Sending to MongoDB", typeof(DatabaseHandler));
-            collection.InsertOne(pair);
+            db_data_collection.InsertOne(pair);
+            Utility.WriteTimeStamp("Sent to MongoDB", typeof(DatabaseHandler));
         }
 
         public static List<Database.ActionSnapshotPair> RetrieveAllFromCollection()
         {
-            List<Database.ActionSnapshotPair> actionSnapshotPairs = collection.Find(_ => true).ToList();
+            List<Database.ActionSnapshotPair> actionSnapshotPairs = db_data_collection.Find(_ => true).ToList();
             return actionSnapshotPairs;
+        }
+
+        public static List<Database.Routine> LoadRoutines()
+        {
+            return db_routines_collection.Find(_ => true).ToList();
         }
     }
 }

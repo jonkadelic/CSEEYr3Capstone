@@ -10,10 +10,10 @@ namespace IoT_Hub.Database
     public class Device
     {
         [BsonElement("device_id")]
-        public string DeviceID { get; }
+        public string DeviceID { get; set; }
 
         [BsonElement("attributes")]
-        public List<Attribute> Attributes { get; }
+        public List<Attribute> Attributes { get; set; }
 
         public Device(string deviceId, List<Attribute> attributes)
         {

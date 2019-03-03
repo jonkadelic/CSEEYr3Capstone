@@ -28,52 +28,43 @@ namespace IoTControllerApplication.ViewModels
                         cell.Text = d.Label;
                         cell.On = d.Value;
                         cell.BindingContext = d;
-                        cell.OnChanged += Switch_OnChanged;
+                        cell.OnChanged += Attribute_ValueChanged_Bool;
                         cells.Add(cell);
                     }
                     else if (d.AttributeType == typeof(double) || d.AttributeType == typeof(int))
                     {
-                        var cell = new ViewCell();
-                        Slider s = new Slider()
+                        if (d.MaxValue != null && d.MinValue != null)
                         {
-                            VerticalOptions = LayoutOptions.CenterAndExpand,
-                            HorizontalOptions = LayoutOptions.FillAndExpand,
-                            Maximum = Convert.ChangeType(d.MaxValue, typeof(double)),
-                            Minimum = Convert.ChangeType(d.MinValue, typeof(double)),
-                            Value = d.Value,
-                        };
-                        s.BindingContext = d;
-                        if (d.AttributeType == typeof(int))
-                        {
-                            s.ValueChanged += Slider_ValueChangedInt;
+                            if (d.AttributeType == typeof(double))
+                            {
+                                SliderCell<double> sc = new SliderCell<double>(d.Label, d.MaxValue, d.MinValue, d.Value);
+                                sc.BindingContext = d;
+                                sc.ValueChanged += Attribute_ValueChanged;
+                                cells.Add(sc);
+                            }
+                            else if (d.AttributeType == typeof(int))
+                            {
+                                SliderCell<int> sc = new SliderCell<int>(d.Label, d.MaxValue, d.MinValue, d.Value);
+                                sc.BindingContext = d;
+                                sc.ValueChanged += Attribute_ValueChanged;
+                                cells.Add(sc);
+                            }
                         }
                         else
                         {
-                            s.ValueChanged += Slider_ValueChanged;
-                        }
-                        Label l = new Label()
-                        {
-                            Text = d.Value.ToString(),
-                            WidthRequest = 32,
-                            BindingContext = s
-                        };
-                        l.SetBinding(Label.TextProperty, new Binding("Value"));
-                        cell.View = new StackLayout()
-                        {
-                            Orientation = StackOrientation.Horizontal,
-                            Margin = new Thickness(16, 8),
-                            Children =
+                            var cell = new ViewCell();
+                            Button inc = new Button()
                             {
-                                new Label()
-                                {
-                                    Text = d.Label,
-                                    WidthRequest = 64
-                                },
-                                s,
-                                l
-                            }
-                        };
-                        cells.Add(cell);
+                                Text = "+"
+                            };
+                            Button dec = new Button()
+                            {
+                                Text = "-"
+                            };
+                            inc.Pressed += IncrementValue;
+                            dec.Pressed += DecrementValue;
+                        }
+                        
                     }
                 }
                 return cells;
@@ -81,25 +72,29 @@ namespace IoTControllerApplication.ViewModels
 
         }
 
-        private void Switch_OnChanged(object sender, ToggledEventArgs e)
+        private void DecrementValue(object sender, EventArgs e)
+        {
+            Button b = sender as Button;
+            b.Parent
+        }
+
+        private void IncrementValue(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Attribute_ValueChanged_Bool(object sender, ToggledEventArgs e)
         {
             Cell v = (Cell)sender;
             DeviceAttribute da = (DeviceAttribute)v.BindingContext;
             da.Value = e.Value;
         }
 
-        private void Slider_ValueChanged(object sender, ValueChangedEventArgs e)
+        private void Attribute_ValueChanged<T>(object sender, ValueChangedEventArgs<T> e)
         {
             View v = (View)sender;
             DeviceAttribute da = (DeviceAttribute)v.BindingContext;
             da.Value = e.NewValue;
-        }
-
-        private void Slider_ValueChangedInt(object sender, ValueChangedEventArgs e)
-        {
-            View v = (View)sender;
-            DeviceAttribute da = (DeviceAttribute)v.BindingContext;
-            da.Value = (int) e.NewValue;
         }
     }
 }

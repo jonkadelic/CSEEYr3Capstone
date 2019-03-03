@@ -48,20 +48,30 @@ namespace IoT_Hub
         ///     Fetches the list of Devices that belong to an instance of Driver.
         /// </summary>
         // TODO: Cache the list of devices so responses to requests are faster?
+
+        List<DriverDevice> driverDeviceCache;
+        DateTime lastRequest = DateTime.Now;
+
         public List<DriverDevice> Devices
         {
             get
             {
                 Utility.WriteTimeStamp($"Request for devices of driver {Name}", typeof(Driver));
-                try
+                if (driverDeviceCache == null || lastRequest.Add(new TimeSpan(0, 5, 0)) < DateTime.Now)
                 {
-                    List<AbstractBasicDevice> allGenericDevices = driverType.GetProperty("Devices").GetValue(null) as List<AbstractBasicDevice>;
-                    List<DriverDevice> myDriverDevices = allGenericDevices.Select(x => new DriverDevice(deviceType, x)).ToList();
-                    return myDriverDevices;
-                } catch (Exception)
-                {
-                    return new List<DriverDevice>();
+                    try
+                    {
+                        List<AbstractBasicDevice> allGenericDevices = driverType.GetProperty("Devices").GetValue(null) as List<AbstractBasicDevice>;
+                        driverDeviceCache = allGenericDevices.Select(x => new DriverDevice(deviceType, x)).ToList();
+                    }
+                    catch (Exception)
+                    {
+                        driverDeviceCache = null;
+                    }
+                    lastRequest = DateTime.Now;
                 }
+                return driverDeviceCache;
+
             }
         }
     }

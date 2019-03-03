@@ -25,6 +25,7 @@ namespace DeviceDriver_Environmental
 
         private void PopulateDeviceVariables()
         {
+            AddDeviceVariable("Time", GetTime);
             AddDeviceVariable("Temperature", GetTemperature);
             AddDeviceVariable("Humidity", GetHumidity);
             AddDeviceVariable("Pressure", GetPressure);
@@ -33,6 +34,11 @@ namespace DeviceDriver_Environmental
             AddDeviceVariable("Clouds", GetClouds);
             AddDeviceVariable("Visibility", GetVisibility);
             AddDeviceVariable("Precipitation", GetPrecipitation);
+        }
+
+        private DateTime GetTime()
+        {
+            return DateTime.Now;
         }
 
         public void AddDeviceVariable<VariableType>(string label, Func<VariableType> getter) where VariableType : IComparable
@@ -87,7 +93,7 @@ namespace DeviceDriver_Environmental
             return EnvironmentalDriver.visibility;
         }
 
-        private EnvironmentalDriver.PrecipitationType GetPrecipitation()
+        private int GetPrecipitation()
         {
             EnvironmentalDriver.ReloadData();
             return EnvironmentalDriver.precipitation;
