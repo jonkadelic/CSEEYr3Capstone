@@ -5,20 +5,31 @@ namespace DeviceDriverPluginSystem.Generics
     public abstract class AbstractBasicDevice
     {
         /// <summary>
-        ///     The name of the device.
+        ///     The name of the device, set by the user.
         /// </summary>
-        public string Label { get; set; }
+        public abstract string Label { get; }
 
-        public string Name { get; }
+        /// <summary>
+        ///     The name of the product.
+        /// </summary>
+        public abstract string Name { get; }
 
-        public string Manufacturer { get; }
+        /// <summary>
+        ///     The product manufacturer.
+        /// </summary>
+        public abstract string Manufacturer { get; }
 
-        public string Id { get; }
+        /// <summary>
+        ///     The device's ID.
+        /// </summary>
+        public abstract string Id { get; }
+
+        public abstract bool IsReadOnly { get; }
 
         /// <summary>
         ///     List of all the DeviceVariable instances associated with the device.
         /// </summary>
-        public List<DeviceAttribute> DeviceAttributes { get; } = new List<DeviceAttribute>();
+        public List<DeviceProperty> DeviceProperties { get; } = new List<DeviceProperty>();
 
         /// <summary>
         ///     Retrieve a DeviceVariable object from DeviceValues by label.
@@ -29,6 +40,6 @@ namespace DeviceDriverPluginSystem.Generics
         /// <returns>
         ///     The DeviceVariable whose label is equal to the supplied value.
         /// </returns>
-        public DeviceAttribute this[string label] => DeviceAttributes.Find(x => x.Label == label);
+        public DeviceProperty this[string label] => DeviceProperties.Find(x => x.Label == label);
     }
 }

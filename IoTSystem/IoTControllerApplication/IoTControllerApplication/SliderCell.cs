@@ -5,13 +5,13 @@ using Xamarin.Forms;
 
 namespace IoTControllerApplication
 {
-    public class SliderCell<T> : ViewCell
+    public class SliderCell : ViewCell
     {
-        public delegate void ValueChangedEventHandler(object sender, ValueChangedEventArgs<T> e);
+        public delegate void ValueChangedEventHandler(object sender, ValueChangedEventArgs e);
         public event ValueChangedEventHandler ValueChanged;
 
-        private T _value;
-        public T Value
+        private double _value;
+        public double Value
         {
             get
             {
@@ -19,30 +19,32 @@ namespace IoTControllerApplication
             }
             set
             {
-                ValueChangedEventArgs<T> v = new ValueChangedEventArgs<T>(_value, value);
-                slider.Value = Convert.ToDouble(value);
-                valueLabel.Text = _value.ToString();
+                ValueChangedEventArgs v = new ValueChangedEventArgs(_value, value);
+                slider.Value = value;
                 _value = value;
+                valueLabel.Text = LabelValue;
                 ValueChanged(this, v);
             }
         }
         private Slider slider;
         private Label valueLabel;
-        public SliderCell(string label, T maximum, T minimum, T defaultValue)
+        public SliderCell(string label, double maximum, double minimum, double defaultValue)
         {
             slider = new Slider()
             {
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                Maximum = Convert.ToDouble(maximum),
-                Minimum = Convert.ToDouble(minimum),
-                Value = Convert.ToDouble(defaultValue)
+                Maximum = maximum,
+                Minimum = minimum,
+                Value = defaultValue,
+                MinimumTrackColor = Color.Accent
             };
             _value = defaultValue;
+            slider.SetBinding(Slider.ValueProperty, new Binding("Value", source: this));
             valueLabel = new Label()
             {
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-                Text = Value.ToString(),
+                Text = LabelValue,
                 WidthRequest = 32
             };
             View = new StackLayout()
@@ -53,6 +55,7 @@ namespace IoTControllerApplication
                 {
                     new Label()
                     {
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
                         Text = label,
                         WidthRequest = 64
                     },
@@ -61,15 +64,25 @@ namespace IoTControllerApplication
                 }
             };
         }
+
+        private string LabelValue {
+            get
+            {
+                if (slider.Minimum == 0.0 && slider.Maximum == 1.0)
+                    return ((int)(Value * 100)).ToString() + "%";
+                else
+                    return ((int)Value).ToString();
+            }
+        }
     }
 
-    public class ValueChangedEventArgs<T>
+    public class ValueChangedEventArgs
     {
-        public T OldValue { get; }
+        public double OldValue { get; }
 
-        public T NewValue { get; }
+        public double NewValue { get; }
 
-        public ValueChangedEventArgs(T oldValue, T newValue)
+        public ValueChangedEventArgs(double oldValue, double newValue)
         {
             OldValue = oldValue;
             NewValue = newValue;

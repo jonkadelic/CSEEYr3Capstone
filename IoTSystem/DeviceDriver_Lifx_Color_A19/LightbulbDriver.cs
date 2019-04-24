@@ -112,12 +112,11 @@ namespace DeviceDriver_Lifx_Color_A19
         /// <param name="value">
         ///     The value to set the state to.
         /// </param>
-        internal static bool SetDeviceProperty(string apiID, string state, string value)
+        internal static void SetDeviceProperty(string apiID, string state, string value)
         {
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add(HttpHeader[0], HttpHeader[1]);
             HttpResponseMessage response = client.PutAsync(HttpUrl + "id:" + apiID + "/state", new StringContent(state + "=" + value, Encoding.UTF8, "application/x-www-form-urlencoded")).Result;
-            return true;
         }
     }
 }

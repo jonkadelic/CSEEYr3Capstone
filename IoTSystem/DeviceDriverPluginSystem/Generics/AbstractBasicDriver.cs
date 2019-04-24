@@ -11,8 +11,14 @@ namespace DeviceDriverPluginSystem.Generics
         /// </summary>
         public static List<AbstractBasicDevice> Devices { get; }
 
+        /// <summary>
+        ///     The class that this driver manages.
+        /// </summary>
         public static Type DeviceType => typeof(AbstractBasicDevice);
 
+        /// <summary>
+        ///     An initialisation routine.
+        /// </summary>
         public static void Initialize()
         {
             return;

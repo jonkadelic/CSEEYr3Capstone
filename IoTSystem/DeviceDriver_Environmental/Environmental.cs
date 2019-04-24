@@ -10,13 +10,15 @@ namespace DeviceDriver_Environmental
 {
     public class Environmental : AbstractBasicDevice
     {
-        public new string Label => "Environmental";
+        public override string Label => "Environmental";
 
-        public new string Name => "Environmental";
+        public override string Name => "Environmental";
 
-        public new string Manufacturer => "Internal";
+        public override string Manufacturer => "Internal";
 
-        public new string Id => "9999999";
+        public override string Id => "9999999";
+
+        public override bool IsReadOnly => true;
 
         internal Environmental()
         {
@@ -25,30 +27,30 @@ namespace DeviceDriver_Environmental
 
         private void PopulateDeviceVariables()
         {
-            AddDeviceVariable("Time", GetTime);
-            AddDeviceVariable("Temperature", GetTemperature);
-            AddDeviceVariable("Humidity", GetHumidity);
-            AddDeviceVariable("Pressure", GetPressure);
-            AddDeviceVariable("WindSpeed", GetWindSpeed);
-            AddDeviceVariable("WindDirection", GetWindDirection);
-            AddDeviceVariable("Clouds", GetClouds);
-            AddDeviceVariable("Visibility", GetVisibility);
-            AddDeviceVariable("Precipitation", GetPrecipitation);
+            AddDeviceProperty("Time", GetTime);
+            AddDeviceProperty("Temperature", GetTemperature);
+            AddDeviceProperty("Humidity", GetHumidity);
+            AddDeviceProperty("Pressure", GetPressure);
+            AddDeviceProperty("WindSpeed", GetWindSpeed);
+            AddDeviceProperty("WindDirection", GetWindDirection);
+            AddDeviceProperty("Clouds", GetClouds);
+            AddDeviceProperty("Visibility", GetVisibility);
+            AddDeviceProperty("Precipitation", GetPrecipitation);
         }
 
-        private DateTime GetTime()
+        public void AddDeviceProperty<PropertyType>(string label, Func<PropertyType> getter) where PropertyType : IComparable
         {
-            return DateTime.Now;
+            DeviceProperties.Add(new DeviceProperty<PropertyType>(getter, DummySet, label));
         }
 
-        public void AddDeviceVariable<VariableType>(string label, Func<VariableType> getter) where VariableType : IComparable
-        {
-            DeviceAttributes.Add(new DeviceAttribute<VariableType>(getter, NullSet, label));
-        }
-
-        private void NullSet<VariableType>(VariableType t)
+        private void DummySet<PropertyType>(PropertyType t)
         {
             return;
+        }
+
+        private int GetTime()
+        {
+            return (int)DateTime.Now.TimeOfDay.TotalMinutes;
         }
 
         private double GetTemperature()

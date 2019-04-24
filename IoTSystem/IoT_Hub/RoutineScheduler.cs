@@ -7,7 +7,7 @@ namespace IoT_Hub
 {
     public static class RoutineScheduler
     {
-        private static List<Routine> routines;
+        public static List<Routine> routines;
         public static void Run()
         {
             routines = DatabaseHandler.LoadRoutines();
@@ -15,27 +15,50 @@ namespace IoT_Hub
             new Thread(PollRoutines).Start();
         }
 
+        public static void ReloadRoutines()
+        {
+            routines = DatabaseHandler.LoadRoutines();
+            Utility.WriteTimeStamp($"Reloaded {routines.Count} routines.", typeof(RoutineScheduler));
+        }
+
         private static void PollRoutines()
         {
-            Thread.Sleep(1000);
-            Dictionary<string, DriverDevice> ddList = DriverLoader.Drivers.SelectMany(x => x.Devices).ToDictionary(t => t.Id, t => t);
-            foreach(Routine r in routines)
+            while (true)
             {
-                bool executeRoutine = true;
-                if (r.RoutineConditions.Count == 0) continue;
-                foreach (RoutineCondition rc in r.RoutineConditions)
+                Thread.Sleep(5000);
+                Utility.WriteTimeStamp("Polling routines...", typeof(RoutineScheduler));
+                Dictionary<string, DriverDevice> ddList = DriverLoader.Drivers.SelectMany(x => x.Devices).ToDictionary(t => t.Id, t => t);
+                foreach (Routine r in routines)
                 {
-                    DriverDevice dd = ddList[rc.DeviceID];
-                    dynamic att = dd.DeviceBase.DeviceAttributes.Single(x => x.Label == rc.AttributeName);
-                    dynamic val = att.Get();
-                    if (val != rc.DesiredValue)
-                        executeRoutine = false;
-                }
-                if (executeRoutine == true)
-                {
-                    DriverDevice dd = ddList[r.TargetDeviceID];
-                    dynamic att = dd.DeviceBase.DeviceAttributes.Single(x => x.Label == r.TargetAttribute);
-                    att.Set(r.TargetValue);
+                    bool executeRoutine = false;
+                    foreach (RoutineCondition rc in r.RoutineConditions)
+                    {
+                        DriverDevice dd = ddList[rc.DeviceID];
+                        dynamic prop = dd.DeviceBase.DeviceProperties.Single(x => x.Label == rc.PropertyName);
+                        dynamic val = prop.Get();
+                        if (rc.Comparison == RoutineCondition.COMPARISON.EQUAL)
+                        {
+                            if (val == rc.DesiredValue)
+                                executeRoutine = true;
+                        }
+                        else if (rc.Comparison == RoutineCondition.COMPARISON.GREATER)
+                        {
+                            if (val > rc.DesiredValue)
+                                executeRoutine = true;
+                        }
+                        else if (rc.Comparison == RoutineCondition.COMPARISON.LESS)
+                        {
+                            if (val < rc.DesiredValue)
+                                executeRoutine = true;
+                        }
+                    }
+                    if (executeRoutine == true)
+                    {
+                        DriverDevice dd = ddList[r.TargetDeviceID];
+                        dynamic prop = dd.DeviceBase.DeviceProperties.Single(x => x.Label == r.TargetProperty);
+                        prop.Set(r.TargetValue);
+                        Utility.WriteTimeStamp($"Executing {r.RoutineName}", typeof(RoutineScheduler));
+                    }
                 }
             }
         }

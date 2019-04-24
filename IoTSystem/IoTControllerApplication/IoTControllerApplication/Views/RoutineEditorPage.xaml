@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IoTControllerApplication.Views.RoutineEditorPage"
+             Title="Routine editor">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="SaveButton" Text="Save" Clicked="SaveButton_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout x:Name="MainStackLayout">
+                <Label Text="Routine name"/>
+                <Entry Text="{Binding Name, Mode=TwoWay}"/>
+                <Label Text="Output device"/>
+                <Picker x:Name="DevicePicker" Title="Output device" ItemsSource="{Binding DevicesList}" SelectedIndexChanged="DevicePicker_SelectedIndexChanged"/>
+                <Label Text="Property to be changed"/>
+                <Picker x:Name="PropertyPicker" Title="Property" ItemsSource="{Binding PropertiesList}" SelectedIndexChanged="PropertyPicker_SelectedIndexChanged"/>
+                <Label Text="Value to set the property to"/>
+                <Entry Text="{Binding TargetValue, Mode=TwoWay}"/>
+                <Button x:Name="AddConditionButton" Text="Add Condition" Clicked="AddConditionButton_Clicked"/>
+            </StackLayout>
+
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

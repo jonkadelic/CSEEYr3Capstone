@@ -86,7 +86,7 @@
     <Compile Include="Database\Action.cs" />
     <Compile Include="Database\ActionSnapshotPair.cs" />
     <Compile Include="Database\Device.cs" />
-    <Compile Include="Database\Attribute.cs" />
+    <Compile Include="Database\Property.cs" />
     <Compile Include="Database\Routine.cs" />
     <Compile Include="Database\RoutineCondition.cs" />
     <Compile Include="Database\Snapshot.cs" />
@@ -109,9 +109,9 @@
     <None Include="Schema\OutputJsonSchema.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj">
+    <ProjectReference Include="..\DeviceDriverPluginSystem\DriverLibrary.csproj">
       <Project>{1a1d5277-80ec-45c7-90ad-a92a4de3f181}</Project>
-      <Name>DeviceDriverPluginSystem</Name>
+      <Name>DriverLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -120,7 +120,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(SolutionDir)\DeviceDriver_Lifx_Color_A19\bin\Debug\DeviceDriver_Lifx_Color_A19.dll" "$(TargetDir)\plugins\" &amp; copy "$(SolutionDir)\DeviceDriver_TP-LINK_HS100\bin\Debug\DeviceDriver_TP-LINK_HS100.dll" "$(TargetDir)\plugins\" &amp; copy "$(SolutionDir)\DeviceDriver_Environmental\bin\Debug\DeviceDriver_Environmental.dll" "$(TargetDir)\plugins\"</PostBuildEvent>
+    <PostBuildEvent>copy "$(SolutionDir)\DeviceDriver_Lifx_Color_A19\bin\Debug\DeviceDriver_Lifx_Color_A19.dll" "$(TargetDir)\plugins\" &amp; copy "$(SolutionDir)\DeviceDriver_TP-LINK_HS100\bin\Debug\DeviceDriver_TP-LINK_HS100.dll" "$(TargetDir)\plugins\" &amp; copy "$(SolutionDir)\DeviceDriver_Environmental\bin\Debug\DeviceDriver_Environmental.dll" "$(TargetDir)\plugins\" &amp; copy "$(SolutionDir)\DeviceDriver_DemonstrationVirtualDevice\bin\Debug\DeviceDriver_DemonstrationVirtualDevice.dll" "$(TargetDir)\plugins\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

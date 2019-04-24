@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1A1D5277-80EC-45C7-90AD-A92A4DE3F181}</ProjectGuid>
+    <ProjectGuid>{6E834C18-CE36-49BB-B460-738D98F76153}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DeviceDriverPluginSystem</RootNamespace>
-    <AssemblyName>DeviceDriverPluginSystem</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>DeviceDriver_DemonstrationVirtualDevice</RootNamespace>
+    <AssemblyName>DeviceDriver_DemonstrationVirtualDevice</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,15 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceAttribute.cs" />
-    <Compile Include="DeviceAttributeRangeChecked.cs" />
-    <Compile Include="GenericSensor\IGenericSensor.cs" />
-    <Compile Include="GenericSensor\SensorDataBundle.cs" />
-    <Compile Include="GenericSensor\SensorDataItem.cs" />
-    <Compile Include="Generics\AbstractBasicDevice.cs" />
-    <Compile Include="Generics\AbstractBasicDriver.cs" />
+    <Compile Include="DemonstrationDevice.cs" />
+    <Compile Include="DemonstrationDeviceDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Range.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceDriverPluginSystem\DriverLibrary.csproj">
+      <Project>{1a1d5277-80ec-45c7-90ad-a92a4de3f181}</Project>
+      <Name>DriverLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

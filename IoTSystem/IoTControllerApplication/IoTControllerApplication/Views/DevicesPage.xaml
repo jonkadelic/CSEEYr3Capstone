@@ -4,21 +4,19 @@
              x:Class="IoTControllerApplication.Views.DevicesPage"
               Title="{Binding Title}"
              x:Name="BrowseDevicesPage">
-    <StackLayout>
-        <ListView x:Name="DevicesListView"
-                ItemsSource="{Binding Devices}"
-                RefreshCommand="{Binding LoadItemsCommand}"
-                IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement"
-                ItemSelected="OnItemSelected"
-                GroupDisplayBinding="{Binding Title}"
-                IsGroupingEnabled="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Label}" Detail="{Binding Name}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
+    <ListView x:Name="DevicesListView"
+            ItemsSource="{Binding Devices}"
+            RefreshCommand="{Binding LoadItemsCommand}"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            CachingStrategy="RecycleElement"
+            ItemSelected="OnItemSelected"
+            GroupDisplayBinding="{Binding Title}"
+            IsGroupingEnabled="True">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding Label}" Detail="{Binding Name}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>

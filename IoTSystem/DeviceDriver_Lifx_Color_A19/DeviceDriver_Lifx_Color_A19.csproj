@@ -49,9 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj">
+    <ProjectReference Include="..\DeviceDriverPluginSystem\DriverLibrary.csproj">
       <Project>{1a1d5277-80ec-45c7-90ad-a92a4de3f181}</Project>
-      <Name>DeviceDriverPluginSystem</Name>
+      <Name>DriverLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

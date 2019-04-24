@@ -47,7 +47,7 @@ namespace DeviceDriver_Environmental
             }
         }
 
-        public static void ReloadData()
+        internal static void ReloadData()
         {
             if (lastReloadTime.Add(new TimeSpan(0, 15, 0)) > DateTime.Now) return;
             LocationProvider.ReloadLocation();

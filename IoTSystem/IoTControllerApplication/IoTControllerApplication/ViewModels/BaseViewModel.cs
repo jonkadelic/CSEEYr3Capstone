@@ -12,7 +12,6 @@ namespace IoTControllerApplication.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<IoTDevice> DataStore => DependencyService.Get<IDataStore<IoTDevice>>() ?? new IoTDataStore();
 
         bool isBusy = false;
         public bool IsBusy

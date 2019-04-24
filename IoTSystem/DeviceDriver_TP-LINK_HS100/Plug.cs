@@ -9,7 +9,7 @@ namespace DeviceDriver_TP_LINK_HS100
     {
         private readonly string ApiID;
 
-        public new string Label
+        public override string Label
         {
             get
             {
@@ -17,28 +17,30 @@ namespace DeviceDriver_TP_LINK_HS100
             }
         }
    
-        public new string Name => "Smart Wi-Fi Plug with Energy Monitoring";
+        public override string Name => "Smart Wi-Fi Plug with Energy Monitoring";
 
-        public new string Manufacturer => "TP-LINK";
+        public override string Manufacturer => "TP-LINK";
 
-        public new string Id => ApiID;
+        public override string Id => ApiID;
+
+        public override bool IsReadOnly => false;
 
         internal Plug(string ApiID)
         {
             this.ApiID = ApiID;
-            PopulateDeviceVariables();
+            PopulateDeviceProperties();
         }
 
-        private void PopulateDeviceVariables()
+        private void PopulateDeviceProperties()
         {
-            DeviceAttributes.Add(new DeviceAttribute<bool>(IsPlugOn, SetPlugOn, "Powered"));
+            DeviceProperties.Add(new DeviceProperty<bool>(IsPlugOn, SetPlugOn, "Powered"));
         }
 
         private bool IsPlugOn()
         {
             try
             {
-                return (JToken.Parse(PlugDriver.GetJsonDeviceInfo(ApiID)["result"]["responseData"].ToString())["system"]["get_sysinfo"]["on_time"].Value<int>()) > 0;
+                return (JToken.Parse(PlugDriver.GetDeviceInfoJson(ApiID)["result"]["responseData"].ToString())["system"]["get_sysinfo"]["on_time"].Value<int>()) > 0;
             }
             catch (Exception)
             {

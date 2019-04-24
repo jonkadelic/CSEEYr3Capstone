@@ -12,7 +12,7 @@ namespace IoT_Hub
     public class ClientBroadcastReceiver
     {
         private static Thread broadcastReceiverThread;
-        private static UdpClient client = new UdpClient(8888);
+        private static readonly UdpClient client = new UdpClient(8888);
         private static byte[] responseData = Encoding.ASCII.GetBytes("verified");
 
         public static void Run()

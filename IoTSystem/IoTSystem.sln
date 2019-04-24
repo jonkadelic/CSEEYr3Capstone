@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriver_Lifx_Color_A19", "DeviceDriver_Lifx_Color_A19\DeviceDriver_Lifx_Color_A19.csproj", "{7374B04E-CC8A-4194-BC32-7E08767C14C5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1A1D5277-80EC-45C7-90AD-A92A4DE3F181} = {1A1D5277-80EC-45C7-90AD-A92A4DE3F181}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriverPluginSystem", "DeviceDriverPluginSystem\DeviceDriverPluginSystem.csproj", "{1A1D5277-80EC-45C7-90AD-A92A4DE3F181}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverLibrary", "DeviceDriverPluginSystem\DriverLibrary.csproj", "{1A1D5277-80EC-45C7-90AD-A92A4DE3F181}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT_Hub", "IoT_Hub\IoT_Hub.csproj", "{C412588C-DE31-4272-AD4B-24F911935FBD}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoTControllerApplication", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriver_Environmental", "DeviceDriver_Environmental\DeviceDriver_Environmental.csproj", "{441D7468-B59B-4A01-91D5-ED207C423344}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Routine_Analyser", "Routine_Analyser\Routine_Analyser.csproj", "{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemonstrationVirtualDevice", "DemonstrationVirtualDevice\DemonstrationVirtualDevice.csproj", "{ADDA857F-688F-4637-B2EE-DCCF36FFA912}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDriver_DemonstrationVirtualDevice", "DeviceDriver_DemonstrationVirtualDevice\DeviceDriver_DemonstrationVirtualDevice.csproj", "{6E834C18-CE36-49BB-B460-738D98F76153}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,18 +141,30 @@ Global
 		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|iPhone.Build.0 = Release|Any CPU
 		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{441D7468-B59B-4A01-91D5-ED207C423344}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Release|iPhone.Build.0 = Release|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{E0096DEA-58DC-4B4B-A0F9-032AE22E07DA}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Release|iPhone.Build.0 = Release|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{ADDA857F-688F-4637-B2EE-DCCF36FFA912}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Release|iPhone.Build.0 = Release|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{6E834C18-CE36-49BB-B460-738D98F76153}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

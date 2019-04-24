@@ -34,16 +34,18 @@ namespace IoT_Hub
 
         public static bool IsDatabaseUp => client.Cluster.Description.State == MongoDB.Driver.Core.Clusters.ClusterState.Connected;
 
-        public static void BuildActionSnapshotAndInsert(DeviceDriverPluginSystem.DeviceAttribute attribute, DriverDevice device, dynamic oldValue, dynamic newValue)
+        [Obsolete]
+        public static void BuildActionSnapshotAndInsert(DeviceDriverPluginSystem.DeviceProperty property, DriverDevice device, dynamic oldValue, dynamic newValue)
         {
-            Thread t = new Thread(() => _BuildActionSnapshotAndInsert(attribute, device, oldValue, newValue));
+            Thread t = new Thread(() => _BuildActionSnapshotAndInsert(property, device, oldValue, newValue));
             t.Start();
         }
 
-        private static void _BuildActionSnapshotAndInsert(DeviceDriverPluginSystem.DeviceAttribute attribute, DriverDevice device, dynamic oldValue, dynamic newValue)
+        [Obsolete]
+        private static void _BuildActionSnapshotAndInsert(DeviceDriverPluginSystem.DeviceProperty property, DriverDevice device, dynamic oldValue, dynamic newValue)
         {
             Utility.WriteTimeStamp("Building snapshot...", typeof(DatabaseHandler));
-            Database.Action action = new Database.Action(device.Id, attribute.Label, oldValue, newValue);
+            Database.Action action = new Database.Action(device.Id, property.Label, oldValue, newValue);
             List<DriverDevice> driverList = new List<DriverDevice>();
             foreach (Driver d in DriverLoader.Drivers)
                 driverList.AddRange(d.Devices);
@@ -56,6 +58,7 @@ namespace IoT_Hub
             Utility.WriteTimeStamp("Sent to MongoDB", typeof(DatabaseHandler));
         }
 
+        [Obsolete]
         public static List<Database.ActionSnapshotPair> RetrieveAllFromCollection()
         {
             List<Database.ActionSnapshotPair> actionSnapshotPairs = db_data_collection.Find(_ => true).ToList();
@@ -65,6 +68,18 @@ namespace IoT_Hub
         public static List<Database.Routine> LoadRoutines()
         {
             return db_routines_collection.Find(_ => true).ToList();
+        }
+
+        public static void InsertRoutine(Database.Routine r)
+        {
+            Utility.WriteTimeStamp($"Routine added to database with ID {r.RoutineID}", typeof(DatabaseHandler));
+            db_routines_collection.InsertOne(r);
+        }
+
+        public static void DeleteRoutine(Database.Routine r)
+        {
+            Utility.WriteTimeStamp($"Routine with ID {r.RoutineID} deleted from database.", typeof(DatabaseHandler));
+            db_routines_collection.DeleteOne(x => x.RoutineID == r.RoutineID);
         }
     }
 }

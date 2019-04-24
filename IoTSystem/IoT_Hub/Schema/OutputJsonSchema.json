@@ -32,25 +32,25 @@
                     },
                     "manufacturer": {
                         "title": "Device Manufacturer",
-                        "description": "Displayable, name of the device's manufacturer.",
+                        "description": "Displayable name of the device's manufacturer.",
                         "type": "string"
                     },
                     "deviceId": {
                         "title": "Device ID",
-                        "description": "Unique integer ID of the device used by the hub.",
-                        "type": "integer"
+                        "description": "Unique ID of the device used by the hub.",
+                        "type": "string"
                     },
                     "driverId": {
                         "title": "Driver ID",
-                        "description": "Unique integer ID of the driver that manages this device on the hub.",
-                        "type": "integer"
+                        "description": "Unique ID of the driver that manages this device on the hub.",
+                        "type": "string"
                     },
                     "variables": {
-                        "title": "Device Attributes",
-                        "description": "Attributes of the device that can be controlled by the IoT hub.",
+                        "title": "Device Properties",
+                        "description": "Properties of the device that can be controlled by the IoT hub.",
                         "type": "array",
                         "items": {
-                            "title": "Device Attribute",
+                            "title": "Device Property",
                             "description": "Variable of the device that can be controlled by the IoT hub.",
                             "type": "string"
                         }

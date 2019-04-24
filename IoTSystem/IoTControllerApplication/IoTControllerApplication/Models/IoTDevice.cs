@@ -11,18 +11,20 @@ namespace IoTControllerApplication.Models
         public string Manufacturer { get; private set; }
         public string DriverId { get; private set; }
         public string DeviceId { get; private set; }
-        public List<DeviceAttribute> Attributes { get; private set; }
+        public bool IsReadOnly { get; private set; }
+        public List<DeviceProperty> Properties { get; private set; }
         public string Id { get; private set; }
 
-        public IoTDevice(string label, string name, string manufacturer, string driverId, string deviceId)
+        public IoTDevice(string label, string name, string manufacturer, string driverId, string deviceId, bool isReadOnly)
         {
             Label = label;
             Name = name;
             Manufacturer = manufacturer;
             DriverId = driverId;
             DeviceId = deviceId;
+            IsReadOnly = isReadOnly;
             Id = Guid.NewGuid().ToString();
-            Attributes = new List<DeviceAttribute>();
+            Properties = new List<DeviceProperty>();
         }
     }
 }

@@ -18,8 +18,8 @@ namespace IoTControllerApplication.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
+                new HomeMenuItem {Id = MenuItemType.Devices, Title="Devices" },
+                new HomeMenuItem {Id = MenuItemType.Routines, Title="Routines"}
             };
 
             ListViewMenu.ItemsSource = menuItems;

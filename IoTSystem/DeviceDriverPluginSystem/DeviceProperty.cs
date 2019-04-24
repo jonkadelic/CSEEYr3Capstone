@@ -4,43 +4,54 @@ using System.Text;
 
 namespace DeviceDriverPluginSystem
 {
-    public class DeviceAttribute
+    public class DeviceProperty
     {
         /// <summary>
-        ///     The type of value DeviceVariable represents; used for conversion to DeviceVariable<VariableType>.
+        ///     The type of value DeviceProperty represents; used for conversion to DeviceProperty<PropertyType>.
         /// </summary>
-        public Type AttributeType;
+        public Type PropertyType;
         /// <summary>
         ///     Variable name for printing, e.g. "Powered", "Brightness".
         /// </summary>
         public string Label { get; }
 
         /// <summary>
-        ///     Creates a new instance of DeviceVariable. Only called when invoking constructor for DeviceVariable<VariableType>.
+        ///     Creates a new instance of DeviceProperty. Only called when invoking constructor for DeviceProperty<PropertyType>.
         /// </summary>
         /// <param name="type">
-        ///     The type of value DeviceVariable represents.
+        ///     The type of value DeviceProperty represents.
         /// </param>
         /// <param name="label">
-        ///     Name to uniquely identify the variable.
+        ///     Name to uniquely identify the property.
         /// </param>
-        protected DeviceAttribute(Type type, string label)
+        protected DeviceProperty(Type type, string label)
         {
-            AttributeType = type;
+            PropertyType = type;
             Label = label;
         }
     }
 
-    public class DeviceAttribute<AttributeType> : DeviceAttribute where AttributeType : IComparable
+    public class DeviceProperty<PropertyType> : DeviceProperty where PropertyType : IComparable
     {
         /// <summary>
         ///     Function to get the value of the variable DeviceVariable represents from the device.
         /// </summary>
-        public Func<AttributeType> Get;
+        private Func<PropertyType> _Get;
+
+        private PropertyType cached;
+        private DateTime lastRequest = DateTime.Now;
+
+        public PropertyType Get()
+        {
+            if (lastRequest.Add(new TimeSpan(0, 0, 30)) < DateTime.Now)
+                return _Get();
+            else
+                return cached;
+        }
         /// <summary>
         ///     Function to set the value of the variable DeviceVariable represents.
         /// </summary>
-        public Action<AttributeType> Set;
+        public Action<PropertyType> Set;
         /// <summary>
         ///     Flag to determine if the variable should be range checked.
         /// </summary>
@@ -58,11 +69,14 @@ namespace DeviceDriverPluginSystem
         /// <param name="label">
         ///     Label to identify the DeviceVariable. Should be unique.
         /// </param>
-        public DeviceAttribute(Func<AttributeType> get, Action<AttributeType> set, string label) : base(typeof(AttributeType), label)
+        public DeviceProperty(Func<PropertyType> get, Action<PropertyType> set, string label) : base(typeof(PropertyType), label)
         {
-            Get = get;
+            _Get = get;
             Set = set;
+            cached = _Get();
             IsInputRangeChecked = false;
         }
+
+
     }
 }

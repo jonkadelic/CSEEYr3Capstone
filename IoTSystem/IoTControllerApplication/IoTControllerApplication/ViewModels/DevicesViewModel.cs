@@ -1,4 +1,5 @@
 ﻿using IoTControllerApplication.Models;
+using IoTControllerApplication.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,7 +33,7 @@ namespace IoTControllerApplication.ViewModels
             try
             {
                 Devices.Clear();
-                var devices = await DataStore.GetItemsAsync(true);
+                var devices = (await DeviceDataStore.DataStore.GetItemsAsync(true)).Where(x => x.IsReadOnly == false);
                 foreach (string manuf in devices.Select(x => x.Manufacturer))
                     Devices.Add(new IoTDeviceGroup(manuf));
                 foreach (IoTDevice device in devices)

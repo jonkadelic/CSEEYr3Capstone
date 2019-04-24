@@ -3,11 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IoTControllerApplication.Views.DeviceDetailPage"
              Title="{Binding Title}">
-    <TableView x:Name="AttributesTableView">
-        <TableRoot>
-            <TableSection>
-                
-            </TableSection>
-        </TableRoot>
-    </TableView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Reload" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <ActivityIndicator x:Name="indicator"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand"/>
+        <TableView x:Name="PropertiesTableView">
+            <TableRoot>
+                <TableSection>
+
+                </TableSection>
+                </TableRoot>
+        </TableView>
+    </StackLayout>
+
 </ContentPage>

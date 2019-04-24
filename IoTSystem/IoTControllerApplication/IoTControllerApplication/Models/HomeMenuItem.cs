@@ -6,7 +6,8 @@ namespace IoTControllerApplication.Models
 {
     public enum MenuItemType
     {
-        Browse,
+        Devices,
+        Routines,
         About
     }
     public class HomeMenuItem

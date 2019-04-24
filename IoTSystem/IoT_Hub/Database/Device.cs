@@ -1,9 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IoT_Hub.Database
 {
@@ -12,24 +8,24 @@ namespace IoT_Hub.Database
         [BsonElement("device_id")]
         public string DeviceID { get; set; }
 
-        [BsonElement("attributes")]
-        public List<Attribute> Attributes { get; set; }
+        [BsonElement("properties")]
+        public List<Property> Properties { get; set; }
 
-        public Device(string deviceId, List<Attribute> attributes)
+        public Device(string deviceId, List<Property> properties)
         {
             DeviceID = deviceId;
-            Attributes = attributes;
+            Properties = properties;
         }
 
         public Device(DriverDevice device)
         {
-            Attributes = new List<Attribute>();
+            Properties = new List<Property>();
             DeviceID = device.Id;
-            foreach(DeviceDriverPluginSystem.DeviceAttribute attribute in device.GetDynamicDevice().DeviceAttributes)
+            foreach(DeviceDriverPluginSystem.DeviceProperty property in device.GetDynamicDevice().DeviceProperties)
             {
-                dynamic att = attribute;
-                Attribute a = new Attribute(attribute.Label, att.Get());
-                Attributes.Add(a);
+                dynamic prop = property;
+                Property a = new Property(property.Label, prop.Get());
+                Properties.Add(a);
             }
         }
     }

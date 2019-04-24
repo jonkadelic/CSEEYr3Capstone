@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IoTControllerApplication.Views.RoutineConditionView">
+    <ContentView.Content>
+        <StackLayout BackgroundColor="#FFF0F0F0">
+            <Button x:Name="DeleteButton" Text="Delete" Clicked="DeleteButton_Clicked"/>
+            <Label Text="Device"/>
+            <Picker x:Name="DevicePicker" Title="Device" ItemsSource="{Binding DevicesList}" SelectedIndexChanged="DevicePicker_SelectedIndexChanged"/>
+            <Label Text="Routine triggers when this property's value"/>
+            <Picker x:Name="PropertyPicker" Title="Property" ItemsSource="{Binding PropertiesList}" SelectedIndexChanged="PropertyPicker_SelectedIndexChanged"/>
+            <Picker x:Name="ComparisonPicker" Title="Comparison" SelectedIndexChanged="ComparisonPicker_SelectedIndexChanged"/>
+            <Label Text="this value:"/>
+            <Entry Text="{Binding DesiredValue, Mode=TwoWay}"/>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

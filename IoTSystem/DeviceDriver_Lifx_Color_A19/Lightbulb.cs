@@ -16,13 +16,15 @@ namespace DeviceDriver_Lifx_Color_A19
         ///     Label of the device as provided by Lifx JSON.
         ///     Cannot be changed by public API so invoking set method does nothing.
         /// </summary>
-        public new string Label => LightbulbDriver.GetJsonByID(ApiID)["label"].ToString();
+        public override string Label => LightbulbDriver.GetJsonByID(ApiID)["label"].ToString();
 
-        public new string Name => "Color 1000";
+        public override string Name => "Color 1000";
 
-        public new string Manufacturer => "Lifx";
+        public override string Manufacturer => "Lifx";
 
-        public new string Id => ApiID;
+        public override string Id => ApiID;
+
+        public override bool IsReadOnly => false;
 
         /// <summary>
         ///     Creates a new Device object with unique ID provided by the JSON data from Lifx.
@@ -33,25 +35,25 @@ namespace DeviceDriver_Lifx_Color_A19
         internal Lightbulb(string ApiID)
         {
             this.ApiID = ApiID;
-            PopulateDeviceVariables();
+            PopulateDeviceProperties();
         }
 
-        private void PopulateDeviceVariables()
+        internal void PopulateDeviceProperties()
         {
-            AddDeviceVariable("Powered", IsBulbOn, SetBulbOn);
-            AddDeviceVariable("Hue", GetBulbHue, SetBulbHue, new Range<int>(0, 360));
-            AddDeviceVariable("Saturation", GetBulbSaturation, SetBulbSaturation, new Range<double>(0d, 1d));
-            AddDeviceVariable("Brightness", GetBulbBrightness, SetBulbBrightness, new Range<double>(0d, 1d));
-            AddDeviceVariable("Warmth", GetBulbWarmth, SetBulbWarmth, new Range<int>(1500, 9000));
+            AddDeviceProperty("Powered", IsBulbOn, SetBulbOn);
+            AddDeviceProperty("Hue", GetBulbHue, SetBulbHue, new Range<int>(0, 360));
+            AddDeviceProperty("Saturation", GetBulbSaturation, SetBulbSaturation, new Range<double>(0d, 1d));
+            AddDeviceProperty("Brightness", GetBulbBrightness, SetBulbBrightness, new Range<double>(0d, 1d));
+            AddDeviceProperty("Warmth", GetBulbWarmth, SetBulbWarmth, new Range<int>(1500, 9000));
         }
 
-        public void AddDeviceVariable<VariableType>(string label, Func<VariableType> getter, Action<VariableType> setter) where VariableType : IComparable
+        internal void AddDeviceProperty<VariableType>(string label, Func<VariableType> getter, Action<VariableType> setter) where VariableType : IComparable
         {
-            DeviceAttributes.Add(new DeviceAttribute<VariableType>(getter, setter, label));
+            DeviceProperties.Add(new DeviceProperty<VariableType>(getter, setter, label));
         }
-        public void AddDeviceVariable<VariableType>(string label, Func<VariableType> getter, Action<VariableType> setter, Range<VariableType> valueRange) where VariableType : IComparable
+        internal void AddDeviceProperty<VariableType>(string label, Func<VariableType> getter, Action<VariableType> setter, Range<VariableType> valueRange) where VariableType : IComparable
         {
-            DeviceAttributes.Add(new DeviceAttributeRangeChecked<VariableType>(getter, setter, label, valueRange));
+            DeviceProperties.Add(new DevicePropertyRangeChecked<VariableType>(getter, setter, label, valueRange));
         }
 
         private bool IsBulbOn() => 

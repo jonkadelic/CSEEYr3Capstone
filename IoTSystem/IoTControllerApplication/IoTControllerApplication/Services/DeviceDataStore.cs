@@ -11,13 +11,15 @@ using System.Threading.Tasks;
 
 namespace IoTControllerApplication.Services
 {
-    class IoTDataStore : IDataStore<IoTDevice>
+    class DeviceDataStore : IDataStore<IoTDevice>
     {
+        public static DeviceDataStore DataStore { get; private set; } = new DeviceDataStore();
+
         List<IoTDevice> devices;
 
         public static string HttpUrl;
 
-        public IoTDataStore()
+        public DeviceDataStore()
         {
             devices = new List<IoTDevice>();
             HttpUrl = "http://" + ServerLocator.GetServerLocation().ToString();
@@ -51,16 +53,16 @@ namespace IoTControllerApplication.Services
                 devices.Clear();
                 using (WebClient client = new WebClient())
                 {
-                    string s = await client.DownloadStringTaskAsync($"{HttpUrl}/all/");
+                    string s = await client.DownloadStringTaskAsync($"{HttpUrl}/devices/");
                     jt = JToken.Parse(s);
                 }
                 foreach (JToken t in jt["devices"])
                 {
-                    IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<string>(), t["deviceId"].Value<string>());
-                    foreach (JValue v in t["attributes"])
+                    IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<string>(), t["deviceId"].Value<string>(), t["readOnly"].Value<bool>());
+                    foreach (JValue v in t["properties"])
                     {
-                        string attributeLabel = v.Value<string>();
-                        dev.Attributes.Add(new DeviceAttribute(attributeLabel, dev));
+                        string propertyLabel = v.Value<string>();
+                        dev.Properties.Add(new DeviceProperty(propertyLabel, dev));
                     }
                     devices.Add(dev);
                 }
@@ -73,21 +75,21 @@ namespace IoTControllerApplication.Services
             JToken jt;
             using (WebClient client = new WebClient())
             {
-                string s = client.DownloadString(HttpUrl + "/all/");
+                string s = client.DownloadString($"{HttpUrl}/devices/");
                 jt = JToken.Parse(s);
             }
             JToken t = jt["devices"].Where(x => x["driverId"].Value<string>() == device.DriverId && x["deviceId"].Value<string>() == device.DeviceId).FirstOrDefault();
-            IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<string>(), t["deviceId"].Value<string>());
-            foreach (JValue v in t["attributes"])
+            IoTDevice dev = new IoTDevice(t["label"].Value<string>(), t["name"].Value<string>(), t["manufacturer"].Value<string>(), t["driverId"].Value<string>(), t["deviceId"].Value<string>(), t["readOnly"].Value<bool>());
+            foreach (JValue v in t["properties"])
             {
-                string attributeLabel = v.Value<string>();
+                string propertyLabel = v.Value<string>();
                 JToken att;
                 using (WebClient client = new WebClient())
                 {
-                    string s = client.DownloadString($"{HttpUrl}/{dev.DriverId}/{dev.DeviceId}/{attributeLabel}/");
+                    string s = client.DownloadString($"{HttpUrl}/devices/{dev.DriverId}/{dev.DeviceId}/{propertyLabel}/");
                     att = JToken.Parse(s);
                 }
-                dev.Attributes.Add(new DeviceAttribute(att["label"].Value<string>(), dev));
+                dev.Properties.Add(new DeviceProperty(att["label"].Value<string>(), dev));
             }
             devices.Remove(device);
             devices.Add(dev);

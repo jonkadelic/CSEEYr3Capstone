@@ -17,7 +17,7 @@ namespace IoTControllerApplication.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Devices, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -26,11 +26,11 @@ namespace IoTControllerApplication.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Browse:
+                    case (int)MenuItemType.Devices:
                         MenuPages.Add(id, new NavigationPage(new DevicesPage()));
                         break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                    case (int)MenuItemType.Routines:
+                        MenuPages.Add(id, new NavigationPage(new RoutinesPage()));
                         break;
                 }
             }
