@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DemonstrationDevice.cs" />
-    <Compile Include="DemonstrationDeviceDriver.cs" />
+    <Compile Include="DemonstrationSmartPlugDriver.cs" />
+    <Compile Include="DemonstrationSmartPlug.cs" />
+    <Compile Include="DemonstrationLightBulb.cs" />
+    <Compile Include="DemonstrationLightBulbDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

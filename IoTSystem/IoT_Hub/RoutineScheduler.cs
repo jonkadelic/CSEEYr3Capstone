@@ -1,4 +1,5 @@
 ﻿using IoT_Hub.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -33,7 +34,15 @@ namespace IoT_Hub
                     bool executeRoutine = false;
                     foreach (RoutineCondition rc in r.RoutineConditions)
                     {
-                        DriverDevice dd = ddList[rc.DeviceID];
+                        DriverDevice dd;
+                        try
+                        {
+                            dd = ddList[rc.DeviceID];
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
                         dynamic prop = dd.DeviceBase.DeviceProperties.Single(x => x.Label == rc.PropertyName);
                         dynamic val = prop.Get();
                         if (rc.Comparison == RoutineCondition.COMPARISON.EQUAL)

@@ -92,7 +92,6 @@ namespace IoT_Hub
             }
             foreach (Driver d in DriverLoader.Drivers)
             {
-                outList.Add(baseUrl + "devices/" + d.Id + "/");
                 foreach (DriverDevice dd in d.Devices)
                 {
                     outList.Add(baseUrl + "devices/" + d.Id + "/" + dd.GetDynamicDevice().Id + "/");

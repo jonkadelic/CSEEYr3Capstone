@@ -11,26 +11,26 @@ using System.Threading.Tasks;
 
 namespace DeviceDriver_DemonstrationVirtualDevice
 {
-    public class DemonstrationDeviceDriver : AbstractBasicDriver
+    public class DemonstrationLightBulbDriver : AbstractBasicDriver
     {
         static HttpClient httpClient = new HttpClient();
         static UdpClient udpClient = new UdpClient();
-        public static new Type DeviceType => typeof(DemonstrationDevice);
 
-        public static new List<AbstractBasicDevice> Devices
+        public static IPAddress Address { get; private set; }
+        public static new Type DeviceType => typeof(DemonstrationLightBulb);
+
+        public static new void Initialize()
         {
-            get
-            {
-                List<AbstractBasicDevice> devices = new List<AbstractBasicDevice>
-                {
-                    new DemonstrationDevice(GetDeviceLocation())
-                };
-                return devices;
-            }
+            Address = GetDeviceLocation();
+            Devices = new List<AbstractBasicDevice>();
+            Devices.Add(new DemonstrationLightBulb(Address));
         }
 
+        public static new List<AbstractBasicDevice> Devices { get; private set; }
 
-        private static IPAddress GetDeviceLocation()
+
+
+        public static IPAddress GetDeviceLocation()
         {
             udpClient.Client.ReceiveTimeout = 5000;
             byte[] data = Encoding.ASCII.GetBytes("verify");
@@ -59,7 +59,7 @@ namespace DeviceDriver_DemonstrationVirtualDevice
             return endpoint.Address;
         }
 
-        internal static JToken GetDeviceJson(DemonstrationDevice device)
+        internal static JToken GetDeviceJson(DemonstrationLightBulb device)
         {
             HttpRequestMessage request = new HttpRequestMessage
             {
@@ -72,6 +72,21 @@ namespace DeviceDriver_DemonstrationVirtualDevice
                 response.EnsureSuccessStatusCode();
                 string json = response.Content.ReadAsStringAsync().Result;
                 return JToken.Parse(json);
+            }
+        }
+
+
+        internal static void SetDeviceValue(DemonstrationLightBulb device, string property, dynamic value)
+        {
+            HttpRequestMessage request = new HttpRequestMessage
+            {
+                RequestUri = new Uri($"http://{device.deviceAddress}/set/{property}/{value}"),
+                Method = HttpMethod.Get
+            };
+
+            using (HttpResponseMessage response = httpClient.SendAsync(request).Result)
+            {
+                response.EnsureSuccessStatusCode();
             }
         }
     }

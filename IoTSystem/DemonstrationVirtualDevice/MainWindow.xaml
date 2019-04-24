@@ -9,18 +9,21 @@
     <Window.DataContext>
         <local:AppViewModel/>
     </Window.DataContext>
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="PoweredButton" Margin="8" Click="PoweredButton_Click">
-            <StackPanel>
-                <Label TextBlock.FontSize="30" HorizontalAlignment="Center">Powered</Label>
-                <Label x:Name="WeatherButton_Label" TextBlock.FontSize="40" TextBlock.FontWeight="Bold" HorizontalAlignment="Center" Content="{Binding PowerButtonText}"/>
-            </StackPanel>
-        </Button>
-        <Button x:Name="PowerLevelButton" Margin="8" Click="PowerLevelButton_Click">
-            <StackPanel>
-                <Label TextBlock.FontSize="30" HorizontalAlignment="Center">Power Level</Label>
-                <Label x:Name="PowerLevelButton_Label" TextBlock.FontSize="40" TextBlock.FontWeight="Bold" HorizontalAlignment="Center" Content="{Binding PowerLevelText}"/>
-            </StackPanel>
-        </Button>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label FontSize="40" VerticalAlignment="Top" HorizontalAlignment="Center">Smart Lightbulb</Label>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image x:Name="LightbulbImage" Width="173" Height="282" Source="Lightbulb.png"/>
+                <Ellipse Width="150" Height="150" Fill="{Binding BulbColor}" VerticalAlignment="Top" Margin="0 11 0 0"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Label HorizontalAlignment="Center" FontSize="40" VerticalAlignment="Top">Smart Plug</Label>
+            <Image x:Name="PlugImage" Width="180" Height="270" Source="{Binding PlugImage}" MouseDown="PlugImage_MouseDown"/>
+        </StackPanel>
+    </Grid>
 </Window>

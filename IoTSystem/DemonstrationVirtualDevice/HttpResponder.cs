@@ -47,7 +47,13 @@ namespace DemonstrationVirtualDevice
         private static void GenerateListenerPrefixes()
         {
             listener.Prefixes.Clear();
-            listener.Prefixes.Add("http://+:80/request/");
+            string baseUrl = "http://+:80/";
+            listener.Prefixes.Add(baseUrl + "request/");
+            listener.Prefixes.Add(baseUrl + "set/bulbR/");
+            listener.Prefixes.Add(baseUrl + "set/bulbG/");
+            listener.Prefixes.Add(baseUrl + "set/bulbB/");
+            listener.Prefixes.Add(baseUrl + "set/bulbPowered/");
+            listener.Prefixes.Add(baseUrl + "set/plugPowered/");
         }
 
         private static HttpListenerContext WaitForRequestContext(HttpListener listener)
@@ -60,7 +66,36 @@ namespace DemonstrationVirtualDevice
         {
             if (context == null) return;
             HttpListenerResponse response = context.Response;
-            string responseString = $"{{\"powerState\":\"{model.PoweredValue}\",\"powerLevel\":{model.PowerLevelValue}}}";
+            string rawUrl = context.Request.RawUrl;
+            if (rawUrl.Contains("set"))
+            {
+                if (rawUrl.Contains("bulbPowered"))
+                {
+                    bool success = bool.TryParse(rawUrl.Split("/".ToArray()).Last(), out bool result);
+                    if (success) model.BulbPowered = result;
+                }
+                else if (rawUrl.Contains("bulbR"))
+                {
+                    bool success = byte.TryParse(rawUrl.Split("/".ToArray()).Last(), out byte result);
+                    if (success) model.BulbR = result;
+                }
+                else if (rawUrl.Contains("bulbG"))
+                {
+                    bool success = byte.TryParse(rawUrl.Split("/".ToArray()).Last(), out byte result);
+                    if (success) model.BulbG = result;
+                }
+                else if (rawUrl.Contains("bulbB"))
+                {
+                    bool success = byte.TryParse(rawUrl.Split("/".ToArray()).Last(), out byte result);
+                    if (success) model.BulbB = result;
+                }
+                else if (rawUrl.Contains("plugPowered"))
+                {
+                    bool success = bool.TryParse(rawUrl.Split("/".ToArray()).Last(), out bool result);
+                    if (success) model.PlugState = result;
+                }
+            }
+            string responseString = $"{{\"bulbPowered\":\"{model.BulbPowered}\",\"bulbR\":\"{model.BulbR}\",\"bulbG\":\"{model.BulbG}\",\"bulbB\":\"{model.BulbB}\",\"plugPowered\":\"{model.PlugState}\"}}";
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
             response.ContentLength64 = buffer.Length;
             response.OutputStream.Write(buffer, 0, buffer.Length);

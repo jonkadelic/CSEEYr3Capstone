@@ -40,7 +40,7 @@ namespace IoT_Hub
         {
             this.driverType = driverType;
             this.deviceType = deviceType;
-            Id = driverType.Assembly.GetName().Name;
+            Id = driverType.Name;
             Name = driverType.Name;
         }
 

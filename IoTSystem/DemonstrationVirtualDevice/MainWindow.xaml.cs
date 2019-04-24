@@ -31,6 +31,8 @@ namespace DemonstrationVirtualDevice
         {
             ClientBroadcastReceiver.Run();
             HttpResponder.Run(ViewModel);
+
+            this.Closed += (s, e) => Environment.Exit(0);
         }
 
         private AppViewModel ViewModel
@@ -41,14 +43,9 @@ namespace DemonstrationVirtualDevice
             }
         }
 
-        private void PoweredButton_Click(object sender, RoutedEventArgs e)
+        private void PlugImage_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ViewModel.TogglePowerButton();
-        }
-
-        private void PowerLevelButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IncrementPowerLevel();
+            ViewModel.PlugState = !ViewModel.PlugState;
         }
     }
 }
